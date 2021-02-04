@@ -1,3 +1,3 @@
-build/default/debug/robot.o: robot.c robot.h
-
-robot.h:
+build/default/debug/robot.o:  \
+robot.c  \
+robot.h 
