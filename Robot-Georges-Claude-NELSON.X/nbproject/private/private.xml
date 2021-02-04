@@ -8,7 +8,12 @@
             <file>file:/C:/GitHub/Robot-Georges-Claude-NELSON/Robot-Georges-Claude-NELSON.X/ChipConfig.h</file>
             <file>file:/C:/GitHub/Robot-Georges-Claude-NELSON/Robot-Georges-Claude-NELSON.X/IO.c</file>
             <file>file:/C:/GitHub/Robot-Georges-Claude-NELSON/Robot-Georges-Claude-NELSON.X/IO.h</file>
+            <file>file:/C:/GitHub/Robot-Georges-Claude-NELSON/Robot-Georges-Claude-NELSON.X/PWM.c</file>
+            <file>file:/C:/GitHub/Robot-Georges-Claude-NELSON/Robot-Georges-Claude-NELSON.X/PWM.h</file>
+            <file>file:/C:/GitHub/Robot-Georges-Claude-NELSON/Robot-Georges-Claude-NELSON.X/timer.c</file>
+            <file>file:/C:/GitHub/Robot-Georges-Claude-NELSON/Robot-Georges-Claude-NELSON.X/timer.h</file>
             <file>file:/C:/GitHub/Robot-Georges-Claude-NELSON/Robot-Georges-Claude-NELSON.X/nbproject/Makefile-default.mk</file>
+            <file>file:/C:/GitHub/Robot-Georges-Claude-NELSON/Robot-Georges-Claude-NELSON.X/robot.h</file>
         </group>
     </open-files>
 </project-private>
