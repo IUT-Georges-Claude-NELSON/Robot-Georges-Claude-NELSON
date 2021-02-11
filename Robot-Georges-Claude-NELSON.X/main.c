@@ -28,10 +28,11 @@ int main(void) {
     /****************************************************************************************************/
     InitIO();
 
-
     InitTimer23();
     InitTimer1();
     InitPWM();
+    InitADC1();
+    
 
     /****************************************************************************************************/
     //Allumage LED
@@ -45,7 +46,12 @@ int main(void) {
     // Boucle Principale
     /****************************************************************************************************/
     while (1) {
-        //LED_BLANCHE=!LED_BLANCHE;
+        unsigned int * resultat;
+        if(ADCIsConversionFinished() == 1)
+        {
+            ADCClearConversionFinishedFlag();
+            resultat = ADCGetResult();
+        }
     } // fin main
 }
 

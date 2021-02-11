@@ -2,6 +2,7 @@
 #include "timer.h"
 #include "IO.h"
 #include "PWM.h"
+#include "ADC.h"
 
 //Initialisation d?un timer 32 bits
 
@@ -19,7 +20,6 @@ void InitTimer23(void) {
     IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
     IEC0bits.T3IE = 1; // Enable Timer3 interrupt
     T2CONbits.TON = 1; // Start 32-bit Timer
-    /* Example code for Timer3 ISR */
 }
 
 unsigned char toggle = 0;
@@ -65,5 +65,6 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
     LED_BLANCHE = !LED_BLANCHE;
     PWMUpdateSpeed(); //Rampe dans timer rapide
+    ADC1StartConversionSequence();
 }
 

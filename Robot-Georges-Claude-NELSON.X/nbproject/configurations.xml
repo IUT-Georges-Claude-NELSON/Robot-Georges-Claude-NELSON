@@ -10,6 +10,7 @@
       <itemPath>robot.h</itemPath>
       <itemPath>Toolbox.h</itemPath>
       <itemPath>PWM.h</itemPath>
+      <itemPath>ADC.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -24,12 +25,14 @@
       <itemPath>robot.c</itemPath>
       <itemPath>ToolBox.c</itemPath>
       <itemPath>PWM.c</itemPath>
+      <itemPath>ADC.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>main.c</itemPath>
     <itemPath>main.c</itemPath>
     <itemPath>main.c</itemPath>
   </logicalFolder>
