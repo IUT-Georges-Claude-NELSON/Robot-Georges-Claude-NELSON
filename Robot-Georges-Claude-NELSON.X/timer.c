@@ -27,7 +27,7 @@ unsigned char toggle = 0;
 //Interruption du timer 23
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
     IFS0bits.T3IF = 0; //Clear Timer3 Interrupt Flag
-    LED_ORANGE = !LED_ORANGE;
+    //LED_ORANGE = !LED_ORANGE;
     //Toggle dans commande lente
     if (toggle == 0) {
         PWMSetSpeedConsigne(20, MOTEUR_DROIT);
@@ -63,8 +63,8 @@ void InitTimer1(void) {
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
-    LED_BLANCHE = !LED_BLANCHE;
+    //LED_BLANCHE = !LED_BLANCHE;
     PWMUpdateSpeed(); //Rampe dans timer rapide
-    ADC1StartConversionSequence();
+    ADC1StartConversionSequence(); //Lance un échantillonage puis une conversion en mettant le bit SAMP à 1
 }
 

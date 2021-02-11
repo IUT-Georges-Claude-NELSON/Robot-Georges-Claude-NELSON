@@ -12,6 +12,7 @@
 #include "IO.h"
 #include "timer.h"
 #include "PWM.h"
+#include "ADC.h"
 
 /*
  * 
@@ -22,25 +23,21 @@ int main(void) {
     /****************************************************************************************************/
     InitOscillator();
 
-
     /****************************************************************************************************/
     // Configuration des entrées sorties
     /****************************************************************************************************/
     InitIO();
-
     InitTimer23();
     InitTimer1();
     InitPWM();
-    InitADC1();
-    
+    InitADC1();    
 
     /****************************************************************************************************/
     //Allumage LED
     /****************************************************************************************************/
-
-    LED_BLANCHE = 1;
-    LED_BLEUE = 1;
-    LED_ORANGE = 1;
+//    LED_BLANCHE = 1;
+//    LED_BLEUE = 1;
+//    LED_ORANGE = 1;
 
     /****************************************************************************************************/
     // Boucle Principale
@@ -51,6 +48,30 @@ int main(void) {
         {
             ADCClearConversionFinishedFlag();
             resultat = ADCGetResult();
+        }
+        if(resultat [0] > 310)
+        {
+            LED_ORANGE = 1;
+        }
+        else
+        {
+            LED_ORANGE = 0;
+        }
+        if(resultat [1] > 310)
+        {
+            LED_BLEUE = 1;
+        }
+        else
+        {
+            LED_BLEUE = 0;
+        }
+        if(resultat [2] > 310)
+        {
+            LED_BLANCHE = 1;
+        }
+        else
+        {
+            LED_BLANCHE = 0;
         }
     } // fin main
 }
