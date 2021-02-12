@@ -1,16 +1,13 @@
-Microchip Technology Inc, v1.60 (B)
+Microchip Technology Inc, v1.60 (A)
 
 Tool Name:
   c:\program files\microchip\xc16\v1.60\bin\bin\..\bin/elf-ld.exe
 
 Command:
   -p33EP512GM706 \
-  --mdfp=C:/Users/GEII Robot/.mchp_packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.3.85/xc16 \
   -o \
   dist/default/production/Robot-Georges-Claude-NELSON.X.production.elf \
   -Lc:/program files/microchip/xc16/v1.60/bin/bin/.. \
-  -LC:/Users/GEII Robot/.mchp_packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.3.85/xc16/bin/../support/PIC24E/gld \
-  -LC:/Users/GEII Robot/.mchp_packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.3.85/xc16/bin/../support/dsPIC33E/gld \
   -Lc:/program files/microchip/xc16/v1.60/bin/bin/../../lib \
   -Lc:/program files/microchip/xc16/v1.60/bin/bin/../../support/PIC24E/gld \
   -Lc:/program files/microchip/xc16/v1.60/bin/bin/../../support/PIC24F/gld \
@@ -100,7 +97,7 @@ CodeGuard RAM Memory:
   boot    (none)
 
 
-xc16-ld 1.60 (B)
+xc16-ld 1.60 (A)
 
 Default Code Model: Small
 Default Data Model: Large
@@ -392,7 +389,7 @@ __FOSCSEL
 
 __FGS             0x0557fa          0x2
  *(__FGS.sec*)
- __FGS.sec        0x0557fa          0x2 /CW/_FGS`Ï
+ __FGS.sec        0x0557fa          0x2 /CW/_FGS
                   0x0557fa                  __FGS.sec
 
 __FUID0
@@ -433,16 +430,16 @@ __FUID3
  .debug_abbrev    0x000496        0x13b build/default/production/ADC.o
  .debug_abbrev    0x0005d1         0xaf build/default/production/main.o
 
-.debug_line       0x000000        0x773
+.debug_line       0x000000        0x695
  *(.debug_line)
- .debug_line      0x000000        0x110 build/default/production/ChipConfig.o
- .debug_line      0x000110        0x10c build/default/production/IO.o
- .debug_line      0x00021c        0x138 build/default/production/timer.o
- .debug_line      0x000354         0x30 build/default/production/robot.o
- .debug_line      0x000384         0x54 build/default/production/ToolBox.o
- .debug_line      0x0003d8        0x145 build/default/production/PWM.o
- .debug_line      0x00051d        0x13f build/default/production/ADC.o
- .debug_line      0x00065c        0x117 build/default/production/main.o
+ .debug_line      0x000000         0xeb build/default/production/ChipConfig.o
+ .debug_line      0x0000eb         0xe7 build/default/production/IO.o
+ .debug_line      0x0001d2        0x113 build/default/production/timer.o
+ .debug_line      0x0002e5         0x30 build/default/production/robot.o
+ .debug_line      0x000315         0x54 build/default/production/ToolBox.o
+ .debug_line      0x000369        0x120 build/default/production/PWM.o
+ .debug_line      0x000489        0x11a build/default/production/ADC.o
+ .debug_line      0x0005a3         0xf2 build/default/production/main.o
 
 .debug_frame      0x000000        0x342
  *(.debug_frame)
@@ -2744,7 +2741,7 @@ LOAD c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-c-elf.a
 END GROUP
 OUTPUT(dist/default/production/Robot-Georges-Claude-NELSON.X.production.elf elf32-pic30)
-LOAD /CW/_FGS`Ï
+LOAD /CW/_FGS
 LOAD default_isr
 LOAD data_init
 
