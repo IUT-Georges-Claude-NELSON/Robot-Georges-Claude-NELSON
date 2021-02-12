@@ -3,6 +3,7 @@
 #include "PWM.h"
 #include "Robot.h"
 #include "Toolbox.h"
+#include "main.h"
 
 #define PWMPER 40.0
 float acceleration = 3;

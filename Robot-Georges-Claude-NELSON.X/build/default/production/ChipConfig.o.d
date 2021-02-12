@@ -1,2 +1,3 @@
 build/default/production/ChipConfig.o:  \
-ChipConfig.c 
+ChipConfig.c  \
+main.h 

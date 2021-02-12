@@ -1,3 +1,4 @@
 build/default/production/ToolBox.o:  \
 ToolBox.c  \
-Toolbox.h 
+Toolbox.h  \
+main.h 

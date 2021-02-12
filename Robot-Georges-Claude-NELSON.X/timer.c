@@ -3,6 +3,7 @@
 #include "IO.h"
 #include "PWM.h"
 #include "ADC.h"
+#include "main.h"
 
 //Initialisation d?un timer 32 bits
 
@@ -46,24 +47,43 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
 void InitTimer1(void) {
     //Timer1 pour horodater les mesures (1ms)
     T1CONbits.TON = 0; // Disable Timer
-    T1CONbits.TCKPS = 0b01; //Prescaler
-    //11 = 1:256 prescale value
-    //10 = 1:64 prescale value
-    //01 = 1:8 prescale value
-    //00 = 1:1 prescale value
-    T1CONbits.TCS = 0; //clock source = internal clock
-    PR1 = 0xC350;
-
+    T1CONbits.TCS = 0; //clock source = internal clock   
     IFS0bits.T1IF = 0; // Clear Timer Interrupt Flag
     IEC0bits.T1IE = 1; // Enable Timer interrupt
     T1CONbits.TON = 1; // Enable Timer
+    
+    SetFreqTimer1(1);
+}
+
+void SetFreqTimer1(float freq)
+{
+T1CONbits.TCKPS = 0b00; //00 = 1:1 prescaler value
+if(FCY /freq > 65535)
+{
+T1CONbits.TCKPS = 0b01; //01 = 1:8 prescaler value
+if(FCY /freq / 8 > 65535)
+{
+T1CONbits.TCKPS = 0b10; //10 = 1:64 prescaler value
+if(FCY /freq / 64 > 65535)
+{
+T1CONbits.TCKPS = 0b11; //11 = 1:256 prescaler value
+PR1 = (int)(FCY / freq / 256);
+}
+else
+PR1 = (int)(FCY / freq / 64);
+}
+else
+PR1 = (int)(FCY / freq / 8);
+}
+else
+PR1 = (int)(FCY / freq);
 }
 
 //Interruption du timer 1
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
-    //LED_BLANCHE = !LED_BLANCHE;
+    LED_BLEUE = !LED_BLEUE;
     PWMUpdateSpeed(); //Rampe dans timer rapide
     ADC1StartConversionSequence(); //Lance un échantillonage puis une conversion en mettant le bit SAMP à 1
 }

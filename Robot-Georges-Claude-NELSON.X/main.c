@@ -13,6 +13,8 @@
 #include "timer.h"
 #include "PWM.h"
 #include "ADC.h"
+#include "Robot.h"
+#include "main.h"
 
 /*
  * 
@@ -43,13 +45,19 @@ int main(void) {
     // Boucle Principale
     /****************************************************************************************************/
     while (1) {
-        unsigned int * resultat;
+        
         if(ADCIsConversionFinished() == 1)
         {
             ADCClearConversionFinishedFlag();
-            resultat = ADCGetResult();
+            unsigned int * result = ADCGetResult();
+            float volts = ((float) result [2]) * 3.3 / 4096 * 3.2;
+            robotState.distanceTelemetreDroit = 34 / volts -5;
+            volts = ((float) result [1]) * 3.3 / 4096 * 3.2;
+            robotState.distanceTelemetreCentre = 34 / volts -5;
+            volts = ((float) result [0]) * 3.3 / 4096 * 3.2;
+            robotState.distanceTelemetreGauche = 34 / volts -5;
         }
-        if(resultat [0] > 310)
+        if(robotState.distanceTelemetreDroit < 20)
         {
             LED_ORANGE = 1;
         }
@@ -57,7 +65,7 @@ int main(void) {
         {
             LED_ORANGE = 0;
         }
-        if(resultat [1] > 310)
+        if(robotState.distanceTelemetreCentre < 20)
         {
             LED_BLEUE = 1;
         }
@@ -65,7 +73,7 @@ int main(void) {
         {
             LED_BLEUE = 0;
         }
-        if(resultat [2] > 310)
+        if(robotState.distanceTelemetreGauche < 20)
         {
             LED_BLANCHE = 1;
         }

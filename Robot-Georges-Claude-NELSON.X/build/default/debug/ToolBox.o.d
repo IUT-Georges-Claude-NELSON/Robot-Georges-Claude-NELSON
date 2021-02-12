@@ -1,3 +1,4 @@
-build/default/debug/ToolBox.o: ToolBox.c Toolbox.h
-
-Toolbox.h:
+build/default/debug/ToolBox.o:  \
+ToolBox.c  \
+Toolbox.h  \
+main.h 
