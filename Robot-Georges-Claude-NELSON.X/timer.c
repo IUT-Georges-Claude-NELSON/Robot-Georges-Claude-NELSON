@@ -5,6 +5,8 @@
 #include "ADC.h"
 #include "main.h"
 
+unsigned long timestamp;
+
 //Initialisation d?un timer 32 bits
 
 void InitTimer23(void) {
@@ -30,16 +32,16 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
     IFS0bits.T3IF = 0; //Clear Timer3 Interrupt Flag
     //LED_ORANGE = !LED_ORANGE;
     //Toggle dans commande lente
-    if (toggle == 0) {
-        PWMSetSpeedConsigne(20, MOTEUR_DROIT);
-        PWMSetSpeedConsigne(-20, MOTEUR_GAUCHE);
-        toggle = 1;
-    }
-    else {
-        PWMSetSpeedConsigne(-20, MOTEUR_DROIT);
-        PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
-        toggle = 0;
-    }
+//    if (toggle == 0) {
+//        PWMSetSpeedConsigne(20, MOTEUR_DROIT);
+//        PWMSetSpeedConsigne(-20, MOTEUR_GAUCHE);
+//        toggle = 1;
+//    }
+//    else {
+//        PWMSetSpeedConsigne(-20, MOTEUR_DROIT);
+//        PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
+//        toggle = 0;
+//    }
 }
 
 //Initialisation d?un timer 16 bits
@@ -52,7 +54,7 @@ void InitTimer1(void) {
     IEC0bits.T1IE = 1; // Enable Timer interrupt
     T1CONbits.TON = 1; // Enable Timer
     
-    SetFreqTimer1(1);
+    SetFreqTimer1(150);
 }
 
 void SetFreqTimer1(float freq)
@@ -83,8 +85,49 @@ PR1 = (int)(FCY / freq);
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
-    LED_BLEUE = !LED_BLEUE;
     PWMUpdateSpeed(); //Rampe dans timer rapide
     ADC1StartConversionSequence(); //Lance un échantillonage puis une conversion en mettant le bit SAMP à 1
 }
 
+void InitTimer4(void) {
+    //Timer4 pour horodater les mesures (1ms)
+    T4CONbits.TON = 0; // Disable Timer
+    T4CONbits.TCS = 0; //clock source = internal clock   
+    IFS1bits.T4IF = 0; // Clear Timer Interrupt Flag
+    IEC1bits.T4IE = 1; // Enable Timer interrupt
+    T4CONbits.TON = 1; // Enable Timer
+    
+    SetFreqTimer4(1000);
+}
+
+void SetFreqTimer4(float freq)
+{
+T4CONbits.TCKPS = 0b00; //00 = 1:1 prescaler value
+if(FCY /freq > 65535)
+{
+T4CONbits.TCKPS = 0b01; //01 = 1:8 prescaler value
+if(FCY /freq / 8 > 65535)
+{
+T4CONbits.TCKPS = 0b10; //10 = 1:64 prescaler value
+if(FCY /freq / 64 > 65535)
+{
+T4CONbits.TCKPS = 0b11; //11 = 1:256 prescaler value
+PR1 = (int)(FCY / freq / 256);
+}
+else
+PR1 = (int)(FCY / freq / 64);
+}
+else
+PR1 = (int)(FCY / freq / 8);
+}
+else
+PR1 = (int)(FCY / freq);
+}
+
+//Interruption du timer 4
+
+void __attribute__((interrupt, no_auto_psv)) _T4Interrupt(void) {
+    IFS1bits.T4IF = 0;
+    timestamp = timestamp + 1;
+    OperatingSystemLoop();
+}
