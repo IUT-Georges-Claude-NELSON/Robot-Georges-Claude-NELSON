@@ -51,29 +51,43 @@ int main(void) {
         if (ADCIsConversionFinished() == 1) {
             ADCClearConversionFinishedFlag();
             unsigned int * result = ADCGetResult();
-            float volts = ((float) result [2]) * 3.3 / 4096 * 3.2;
+            float volts = ((float) result [1]) * 3.3 / 4096 * 3.2;
             robotState.distanceTelemetreDroit = 34 / volts - 5;
-            volts = ((float) result [1]) * 3.3 / 4096 * 3.2;
+            volts = ((float) result [2]) * 3.3 / 4096 * 3.2;
             robotState.distanceTelemetreCentre = 34 / volts - 5;
-            volts = ((float) result [0]) * 3.3 / 4096 * 3.2;
+            volts = ((float) result [4]) * 3.3 / 4096 * 3.2;
             robotState.distanceTelemetreGauche = 34 / volts - 5;
+            volts = ((float) result [3]) * 3.3 / 4096 * 3.2;
+            robotState.distanceTelemetreExGauche = 34 / volts - 5;
+            volts = ((float) result [0]) * 3.3 / 4096 * 3.2;
+            robotState.distanceTelemetreExDroit = 34 / volts - 5;
         }
-        if (robotState.distanceTelemetreDroit < 20) {
+        if (robotState.distanceTelemetreDroit < 10) 
+        {
             LED_ORANGE = 1;
-        } else {
+        } 
+        else 
+        {
             LED_ORANGE = 0;
         }
-        if (robotState.distanceTelemetreCentre < 20) {
+        if (robotState.distanceTelemetreCentre < 10) 
+        {
             LED_BLEUE = 1;
-        } else {
+        } 
+        else 
+        {
             LED_BLEUE = 0;
         }
-        if (robotState.distanceTelemetreGauche < 20) {
+        if (robotState.distanceTelemetreGauche < 10)
+        {
             LED_BLANCHE = 1;
-        } else {
+        } 
+        else 
+        {
             LED_BLANCHE = 0;
         }
-    }
+//    }
+}
 }
 
     unsigned char stateRobot;
@@ -92,8 +106,8 @@ int main(void) {
                 break;
 
             case STATE_AVANCE:
-                PWMSetSpeedConsigne(15, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(15, MOTEUR_GAUCHE);
+                PWMSetSpeedConsigne(20, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
                 stateRobot = STATE_AVANCE_EN_COURS;
                 break;
             case STATE_AVANCE_EN_COURS:
@@ -137,7 +151,7 @@ int main(void) {
                 break;
 
             default:
-                stateRobot = STATE_ATTENTE;
+                stateRobot = STATE_AVANCE;
                 break;
         }
     }
@@ -156,8 +170,12 @@ int main(void) {
             positionObstacle = OBSTACLE_EN_FACE;
         else if (robotState.distanceTelemetreDroit > 30 && robotState.distanceTelemetreCentre > 20 && robotState.distanceTelemetreGauche > 30) //pas d?obstacle
             positionObstacle = PAS_D_OBSTACLE;
+        else if (robotState.distanceTelemetreExDroit < 15 && robotState.distanceTelemetreCentre > 10 && robotState.distanceTelemetreExGauche < 15) 
+            positionObstacle = OBSTACLE_A_GAUCHE;
+        else if (robotState.distanceTelemetreDroit <15 && robotState.distanceTelemetreCentre > 20 && robotState.distanceTelemetreGauche < 15) 
+            positionObstacle = OBSTACLE_A_DROITE;
 
-        //Détermination de l?état à venir du robot
+        //Détermination de l'état à venir du robot
         if (positionObstacle == PAS_D_OBSTACLE)
             nextStateRobot = STATE_AVANCE;
         else if (positionObstacle == OBSTACLE_A_DROITE)
@@ -167,12 +185,13 @@ int main(void) {
         else if (positionObstacle == OBSTACLE_EN_FACE)
             nextStateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
 
-        //Si l?on n?est pas dans la transition de l?étape en cours
+        //Si l'on n'est pas dans la transition de l'étape en cours
         if (nextStateRobot != stateRobot - 1) 
         {
             stateRobot = nextStateRobot;
         }
        
     }
+
  // fin main
 

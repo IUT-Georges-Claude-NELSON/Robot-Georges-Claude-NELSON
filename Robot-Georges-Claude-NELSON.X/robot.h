@@ -8,6 +8,8 @@ unsigned char taskEnCours;
 float distanceTelemetreDroit;
 float distanceTelemetreCentre;
 float distanceTelemetreGauche;
+float distanceTelemetreExGauche;
+float distanceTelemetreExDroit;
 float vitesseGaucheConsigne;
 float vitesseGaucheCommandeCourante;
 float vitesseDroiteConsigne;
