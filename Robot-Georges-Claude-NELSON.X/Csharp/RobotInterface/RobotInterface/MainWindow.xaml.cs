@@ -26,20 +26,32 @@ namespace RobotInterface
             InitializeComponent();
         }
 
+        void SendMessage()
+        {
+            string message = textBoxEmission.Text.TrimEnd('\n');
+            textBoxRéception.Text = textBoxRéception.Text + "Reçu : " + message + "\n";
+            textBoxEmission.Text = "";
+        }
+
         private void buttonEnvoyer_Click(object sender, RoutedEventArgs e)
         {
             if (buttonEnvoyer.Background == Brushes.RoyalBlue)
-            { buttonEnvoyer.Background = Brushes.Beige; }
+            { 
+                buttonEnvoyer.Background = Brushes.Beige; 
+            }
             else
-            { buttonEnvoyer.Background = Brushes.RoyalBlue; }//Lorsqu'on clique, le bouton devient bleu. Si l'on réitère, le bouton reste toujours bleu.
-            textBoxRéception.Text = textBoxRéception.Text + "Reçu : " + textBoxEmission.Text + "\n";
-            textBoxEmission.Text = "";
+            { 
+                buttonEnvoyer.Background = Brushes.RoyalBlue; 
+            } //Lorsqu'on clique, le bouton devient bleu. Si l'on réitère, le bouton reste toujours bleu.
+            SendMessage();
         }
 
         private void textBoxEmission_KeyUp(object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Enter)
-            { SendMessage(); }
+            {
+                SendMessage();
+            }
         }
     }
 }

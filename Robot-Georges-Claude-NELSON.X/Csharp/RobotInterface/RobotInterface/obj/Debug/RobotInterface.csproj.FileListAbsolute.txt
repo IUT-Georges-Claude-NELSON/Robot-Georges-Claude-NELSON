@@ -10,6 +10,5 @@ C:\Github\Robot-Georges-Claude-NELSON\Robot-Georges-Claude-NELSON.X\Csharp\Robot
 C:\Github\Robot-Georges-Claude-NELSON\Robot-Georges-Claude-NELSON.X\Csharp\RobotInterface\RobotInterface\obj\Debug\RobotInterface.g.resources
 C:\Github\Robot-Georges-Claude-NELSON\Robot-Georges-Claude-NELSON.X\Csharp\RobotInterface\RobotInterface\obj\Debug\RobotInterface.Properties.Resources.resources
 C:\Github\Robot-Georges-Claude-NELSON\Robot-Georges-Claude-NELSON.X\Csharp\RobotInterface\RobotInterface\obj\Debug\RobotInterface.csproj.GenerateResource.cache
-C:\Github\Robot-Georges-Claude-NELSON\Robot-Georges-Claude-NELSON.X\Csharp\RobotInterface\RobotInterface\obj\Debug\RobotInterface.csproj.CoreCompileInputs.cache
 C:\Github\Robot-Georges-Claude-NELSON\Robot-Georges-Claude-NELSON.X\Csharp\RobotInterface\RobotInterface\obj\Debug\RobotInterface.exe
 C:\Github\Robot-Georges-Claude-NELSON\Robot-Georges-Claude-NELSON.X\Csharp\RobotInterface\RobotInterface\obj\Debug\RobotInterface.pdb

@@ -4,11 +4,11 @@
 winexe
 C#
 .cs
-C:\GitHub\Robot-Georges-Claude-NELSON\Robot-Georges-Claude-NELSON.X\Csharp\RobotInterface\RobotInterface\obj\Debug\
+C:\GitHub\Robot-Georges-Claude-NELSON\Robot-Georges-Claude-NELSON.X\Csharp\RobotInterface\RobotInterface\obj\Release\
 RobotInterface
 none
 false
-DEBUG;TRACE
+TRACE
 C:\GitHub\Robot-Georges-Claude-NELSON\Robot-Georges-Claude-NELSON.X\Csharp\RobotInterface\RobotInterface\App.xaml
 11151548125
 
@@ -16,5 +16,5 @@ C:\GitHub\Robot-Georges-Claude-NELSON\Robot-Georges-Claude-NELSON.X\Csharp\Robot
 13152784993
 MainWindow.xaml;
 
-False
+True
 
