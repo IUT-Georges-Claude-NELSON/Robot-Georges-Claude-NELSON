@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ExtendedSerialPort;
+using System.IO.Ports;
+using System.Windows.Threading;
 
 namespace RobotInterface
 {
@@ -20,16 +23,45 @@ namespace RobotInterface
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+
+        ReliableSerialPort serialPort1;
+        DispatcherTimer timerAffichage;
+
+
         public MainWindow()
         {
+            serialPort1 = new ReliableSerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
+            serialPort1.DataReceived += SerialPort1_DataReceived;
+            serialPort1.Open();
+
+            timerAffichage = new DispatcherTimer();
+            timerAffichage.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            timerAffichage.Tick += TimerAffichage_Tick;
+            timerAffichage.Start();
+
             InitializeComponent();
+        }
+
+        private void TimerAffichage_Tick(object sender, EventArgs e)
+        {
+            if(receivedText != "")
+            {
+                textBoxRéception.Text += receivedText;
+                receivedText = "";
+            }
+        }
+
+        string receivedText = "";
+
+        private void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
+        {
+            receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
         }
 
         void SendMessage()
         {
-            string message = textBoxEmission.Text.TrimEnd('\n');
-            textBoxRéception.Text = textBoxRéception.Text + "Reçu : " + message + "\n";
+            string message = textBoxEmission.Text.TrimEnd('\n' );
+            serialPort1.WriteLine(message);
             textBoxEmission.Text = "";
         }
 
@@ -44,6 +76,11 @@ namespace RobotInterface
                 buttonEnvoyer.Background = Brushes.RoyalBlue; 
             } //Lorsqu'on clique, le bouton devient bleu. Si l'on réitère, le bouton reste toujours bleu.
             SendMessage();
+        }
+
+        private void buttonClear_Click(object sender, RoutedEventArgs e)
+        {
+            textBoxRéception.Text = "";
         }
 
         private void textBoxEmission_KeyUp(object sender, KeyEventArgs e)
