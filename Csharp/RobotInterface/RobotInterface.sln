@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtendedSerialPort", "..\..
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EA70B402-1B2B-49DB-893D-A498E5351721}"
 	ProjectSection(SolutionItems) = preProject
-		Class1.cs = Class1.cs
+		Robot.cs = Robot.cs
 	EndProjectSection
 EndProject
 Global

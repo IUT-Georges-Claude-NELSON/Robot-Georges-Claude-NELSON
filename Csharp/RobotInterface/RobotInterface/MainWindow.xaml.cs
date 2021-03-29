@@ -16,16 +16,21 @@ using ExtendedSerialPort;
 using System.IO.Ports;
 using System.Windows.Threading;
 
+
 namespace RobotInterface
 {
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
+    /// 
+   
     public partial class MainWindow : Window
     {
 
         ReliableSerialPort serialPort1;
         DispatcherTimer timerAffichage;
+
+        Robot robot = new Robot();
 
 
         public MainWindow()
@@ -44,18 +49,17 @@ namespace RobotInterface
 
         private void TimerAffichage_Tick(object sender, EventArgs e)
         {
-            if(receivedText != "")
+            if(robot.receivedText != "")
             {
-                textBoxRéception.Text += receivedText;
-                receivedText = "";
+                textBoxRéception.Text += robot.receivedText;
+                robot.receivedText = "";
             }
         }
 
-        string receivedText = "";
 
         private void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
         {
-            receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
+            robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
         }
 
         void SendMessage()
@@ -65,9 +69,11 @@ namespace RobotInterface
             textBoxEmission.Text = "";
         }
 
+        bool toggle = false;
+
         private void buttonEnvoyer_Click(object sender, RoutedEventArgs e)
         {
-            if (buttonEnvoyer.Background == Brushes.RoyalBlue)
+            if (toggle)
             { 
                 buttonEnvoyer.Background = Brushes.Beige; 
             }
@@ -76,6 +82,8 @@ namespace RobotInterface
                 buttonEnvoyer.Background = Brushes.RoyalBlue; 
             } //Lorsqu'on clique, le bouton devient bleu. Si l'on réitère, le bouton reste toujours bleu.
             SendMessage();
+
+            toggle = !toggle;
         }
 
         private void buttonClear_Click(object sender, RoutedEventArgs e)
