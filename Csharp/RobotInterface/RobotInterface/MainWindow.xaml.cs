@@ -91,6 +91,8 @@ namespace RobotInterface
             textBoxRéception.Text = "";
         }
 
+
+
         private void textBoxEmission_KeyUp(object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Enter)
