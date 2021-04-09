@@ -28,6 +28,9 @@ void InitIO()
     _TRISC7=0;
     
 
+    _U1RXR = 24; // Remape la RP 24 sur l'entrée Rx1
+    _RP36R = 0b000001; //Remappe la sortie Tx1 vers RP
+    
     //********** Configuration des entrées : _TRISxx = 1 ********************************   
     
 }

@@ -16,6 +16,7 @@
 #include "Robot.h"
 #include "main.h"
 #include "Toolbox.h"
+#include "UART.h"
 
 /*
  * 
@@ -35,6 +36,7 @@ int main(void) {
     InitPWM();
     InitADC1();
     InitTimer4();
+    InitUART();
 
     /****************************************************************************************************/
     //Allumage LED
@@ -80,7 +82,8 @@ int main(void) {
         else {
             LED_BLANCHE = 0;
         }
-        //    }
+        
+        SendMessageDirect((unsigned char *) "Bonjour",7);
     }
 }
 
