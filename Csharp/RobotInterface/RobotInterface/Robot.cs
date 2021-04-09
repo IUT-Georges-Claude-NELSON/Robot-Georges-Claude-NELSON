@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public class Robot
 {
@@ -10,4 +11,7 @@ public class Robot
 	public Robot()
 	{
 	}
+
+	public Queue<byte> byteListReceived = new Queue<byte>();
+
 }

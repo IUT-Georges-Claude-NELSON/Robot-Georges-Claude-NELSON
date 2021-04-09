@@ -17,6 +17,8 @@ using System.IO.Ports;
 using System.Windows.Threading;
 
 
+
+
 namespace RobotInterface
 {
     /// <summary>
@@ -35,7 +37,7 @@ namespace RobotInterface
 
         public MainWindow()
         {
-            serialPort1 = new ReliableSerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ReliableSerialPort("COM4", 115200, Parity.None, 8, StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
             serialPort1.Open();
 
@@ -49,17 +51,37 @@ namespace RobotInterface
 
         private void TimerAffichage_Tick(object sender, EventArgs e)
         {
-            if(robot.receivedText != "")
+            //if(robot.receivedText != "")
+            //{
+
+            //    textBoxRéception.Text += robot.receivedText;
+            //    robot.receivedText = "";
+            //}
+
+            while(robot.byteListReceived.Count != 0)
             {
-                textBoxRéception.Text += robot.receivedText;
-                robot.receivedText = "";
+                byte byteReceived = robot.byteListReceived.Dequeue();
+                string lecture;
+                lecture = byteReceived.ToString("X2");
+                textBoxRéception.Text += lecture + " ";
             }
         }
 
 
         private void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
         {
-            robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
+            //for(int i=0; i<e.Data.Length; i++)
+            //{
+            //    robot.byteListReceived.Enqueue(e.Data[i]);
+            //}
+
+            foreach(byte b in e.Data)
+            {
+                robot.byteListReceived.Enqueue(b);
+
+            }
+
+            //robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);            
         }
 
         void SendMessage()
@@ -91,6 +113,16 @@ namespace RobotInterface
             textBoxRéception.Text = "";
         }
 
+        private void buttonTest_Click(object sender, RoutedEventArgs e)
+        {
+            byte[] byteList = new byte[20];
+            for (int i = 0; i < 20; i++)
+            {
+                byteList[i] = (byte)(2*i);
+                
+            }
+            serialPort1.Write(byteList, 0, 20);
+        }
 
 
         private void textBoxEmission_KeyUp(object sender, KeyEventArgs e)
