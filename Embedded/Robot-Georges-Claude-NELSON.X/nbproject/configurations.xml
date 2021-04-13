@@ -13,6 +13,7 @@
       <itemPath>ADC.h</itemPath>
       <itemPath>main.h</itemPath>
       <itemPath>UART.h</itemPath>
+      <itemPath>CB_TX1.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
