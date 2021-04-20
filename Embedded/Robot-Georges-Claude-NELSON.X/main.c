@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <xc.h>
+#include <libpic30.h>
 #include "ChipConfig.h"
 #include "IO.h"
 #include "timer.h"
@@ -18,6 +19,7 @@
 #include "Toolbox.h"
 #include "UART.h"
 #include "CB_TX1.h"
+#include "CB_RX1.h"
 
 /*
  * 
@@ -83,8 +85,15 @@ int main(void) {
         else {
             LED_BLANCHE = 0;
         }
-                   SendMessage((unsigned char *) "Salut!",6);
-                    __delay32(40000000);
+                   //SendMessage((unsigned char *) "Salut!",6);
+                   // __delay32(40000000);
+        int i;
+        for(i=0; i<CB_RX1_GetDataSize(); i++)
+        {
+            unsigned char c = CB_RX1_Get();
+            SendMessage(&c,1);
+        }
+        __delay32(10000);
     }
 }
 
