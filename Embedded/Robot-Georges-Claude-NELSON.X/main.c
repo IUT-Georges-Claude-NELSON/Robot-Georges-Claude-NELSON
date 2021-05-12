@@ -93,7 +93,7 @@ int main(void) {
             unsigned char c = CB_RX1_Get();
             SendMessage(&c,1);
         }
-        __delay32(10000);
+        __delay32(1000);
     }
 }
 
