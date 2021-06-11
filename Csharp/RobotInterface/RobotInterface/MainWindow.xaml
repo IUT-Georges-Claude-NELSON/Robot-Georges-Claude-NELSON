@@ -5,14 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RobotInterface"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="467" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition/>
+            <RowDefinition Height="10"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="90"/>
             <RowDefinition Height="30"/>
+
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30"/>
@@ -20,16 +23,37 @@
             <ColumnDefinition Width="30"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="30"/>
+
         </Grid.ColumnDefinitions>
-        <GroupBox x:Name="Emission" Header="GroupBox" Margin="0" Background="#FFD1D1D1" BorderBrush="Black" Grid.Row="1" Grid.Column="1">
+        <GroupBox x:Name="Emission" Header="Emission" Margin="0" Background="#FFD1D1D1" BorderBrush="Black" Grid.Row="1" Grid.Column="1">
             <TextBox x:Name="textBoxEmission" Margin="0,4,0,0" TextWrapping="Wrap" AcceptsReturn="True" Background="{x:Null}" KeyUp="textBoxEmission_KeyUp"/>
         </GroupBox>
-        <GroupBox x:Name="Réception" Header="GroupBox" Margin="0" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="1" Grid.Column="3">
+        <GroupBox x:Name="Réception" Header="Réception" Margin="0" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="1" Grid.Column="3">
             <TextBox x:Name="textBoxRéception" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True" Background="{x:Null}"/>
         </GroupBox>
-        <Button x:Name="buttonEnvoyer" Content="Envoyer" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="3" VerticalAlignment="Stretch" Width="100" Click="buttonEnvoyer_Click"/>
+        <GroupBox x:Name="Leds" Header="Leds" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="1" Margin="0,0,280,0">
+            <StackPanel>
+                <CheckBox x:Name="Led1" Content="Led1" Margin="2,2,0,2" />
+                <CheckBox x:Name="Led2" Content="Led2" Margin="2,2,0,2" />
+                <CheckBox x:Name="Led3" Content="Led3" Margin="2,2,0,2" />
+            </StackPanel>
+        </GroupBox>
+        <GroupBox x:Name="Telemetres" Header="Télémètres IR" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="1" Margin="108,0,119,0">
+            <StackPanel Margin="0,0,-12,0">
+                <TextBlock TextWrapping="Wrap" Text="IR Gauche : " Margin="0,0,41,0"/>
+                <TextBlock TextWrapping="Wrap" Text="IR Centre : " Margin="0,0,41,0"/>
+                <TextBlock TextWrapping="Wrap" Text="IR Droit : " Margin="0,0,41,0" />
+            </StackPanel>
+        </GroupBox>
+        <GroupBox x:Name="Moteurs" Header="Moteurs" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="1" Margin="302,0" Grid.ColumnSpan="3">
+            <StackPanel Margin="0,0,-39,0">
+                <TextBlock TextWrapping="Wrap" Text="Vitesse Gauche : " Margin="0,0,41,0"/>
+                <TextBlock TextWrapping="Wrap" Text="Vitesse Droite : " Margin="0,0,41,0"/>
+            </StackPanel>
+        </GroupBox>
+        <Button x:Name="buttonEnvoyer" Content="Envoyer" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Stretch" Width="100" Click="buttonEnvoyer_Click"/>
         <Button x:Name="buttonClear" Content="Clear" Grid.Column="3" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="3" VerticalAlignment="Stretch" Width="100" Click="buttonClear_Click"/>
-        <Button x:Name="buttonTest" Content="Test" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="4" VerticalAlignment="Stretch" Click="buttonTest_Click" Width="100"/>
+        <Button x:Name="buttonTest" Content="Test" Grid.Column="1" HorizontalAlignment="Right" Margin="220,0,0,0" Grid.Row="3" VerticalAlignment="Stretch" Click="buttonTest_Click" Width="100"/>
 
     </Grid>
 </Window>

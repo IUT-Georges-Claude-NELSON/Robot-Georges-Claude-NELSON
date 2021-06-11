@@ -37,7 +37,7 @@ namespace RobotInterface
 
         public MainWindow()
         {
-            serialPort1 = new ReliableSerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ReliableSerialPort("COM5", 115200, Parity.None, 8, StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
             serialPort1.Open();
 
@@ -89,6 +89,8 @@ namespace RobotInterface
         {
             string message = textBoxEmission.Text.TrimEnd('\n' );
             serialPort1.WriteLine(message);
+            byte[] chaine = Encoding.ASCII.GetBytes(message);
+            UartEncodeAndSendMessage(0x0080, chaine.Length, chaine);
             textBoxEmission.Text = "";
         }
 
@@ -216,9 +218,9 @@ namespace RobotInterface
                 case StateReception.PayloadLengthLSB:
                     msgDecodedPayloadLength += c << 0;
                     if(msgDecodedPayloadLength == 0)
-                    {
+                        rcvState = StateReception.CheckSum;
+                    else if(msgDecodedPayloadLength>=1024)
                         rcvState = StateReception.Waiting;
-                    }
                     else
                     {
                         rcvState = StateReception.Payload;
@@ -238,15 +240,16 @@ namespace RobotInterface
                     byte receivedChecksum = c;
                     if (calculatedChecksum == receivedChecksum)
                     {
-                        rcvState = StateReception.Waiting; //Success, on a un message valide
+                        //Success, on a un message valide
                         textBoxRéception.Text += "Pas d'erreur";
                     }
                     else
                     {
                         textBoxRéception.Text += "Erreur les amis :')" + "\n";
                     }
+                    rcvState = StateReception.Waiting;
 
-                break;
+                    break;
 
                 default:
                     rcvState = StateReception.Waiting;
