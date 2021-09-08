@@ -37,7 +37,7 @@ namespace RobotInterface
 
         public MainWindow()
         {
-            serialPort1 = new ReliableSerialPort("COM5", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ReliableSerialPort("COM18", 115200, Parity.None, 8, StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
             serialPort1.Open();
 
@@ -79,11 +79,18 @@ namespace RobotInterface
             foreach(byte b in e.Data)
             {
                 robot.byteListReceived.Enqueue(b);
-
             }
 
             //robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);            
         }
+
+        //public void DecodeMessageReceived(object sender, DataReceivedArgs e)
+        //{
+        //    foreach(byte b in e.Data)
+        //    {
+        //        DecodeMessage(b);
+        //    }
+        //}
 
         void SendMessage()
         {
@@ -125,9 +132,11 @@ namespace RobotInterface
 
             //}
             //serialPort1.Write(byteList, 0, 20);
-            byte[] chaine = Encoding.ASCII.GetBytes("Bonjour");
-            UartEncodeAndSendMessage(0x0080, chaine.Length, chaine);
-
+            //byte[] chaine = Encoding.ASCII.GetBytes("Bonjour");
+            byte[] chaine = new byte[3];
+            chaine[0] = Convert.ToByte(52);
+            chaine[1] = Convert.ToByte(14);
+            UartEncodeAndSendMessage(0x0040, chaine.Length, chaine);
         }
 
 
@@ -241,7 +250,8 @@ namespace RobotInterface
                     if (calculatedChecksum == receivedChecksum)
                     {
                         //Success, on a un message valide
-                        textBoxRéception.Text += "Pas d'erreur";
+                        textBoxRéception.Text += "Pas d'erreur \n";
+                        ProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
                     }
                     else
                     {
@@ -254,6 +264,65 @@ namespace RobotInterface
                 default:
                     rcvState = StateReception.Waiting;
                 break;
+            }
+        }
+
+        public enum Fonctions
+        {
+            Texte = 0x0080,
+            LED = 0x0020,
+            Tel_IR = 0x0030,
+            Vitesse = 0x0040
+        }
+
+        void ProcessDecodedMessage(int msgFunction, int msgPayloadLength, byte [] msgPayload)
+        {
+            switch(msgFunction)
+            {
+                case (int) Fonctions.Texte:
+                    textBoxRéception.Text += Encoding.UTF8.GetString(msgPayload, 0, msgPayload.Length) + "\n";
+                    break;
+
+                case (int)Fonctions.LED:
+
+                    int numLED = msgPayload[0];
+                    int etatLED = msgPayload[1];
+
+                    if (numLED == 0)
+                    {
+                        Led1.IsChecked = Convert.ToBoolean(etatLED);
+                    }
+
+                    else if (numLED == 1)
+                    {
+                        Led2.IsChecked = Convert.ToBoolean(etatLED);
+                    }
+
+                    else if (numLED == 2)
+                    {
+                        Led3.IsChecked = Convert.ToBoolean(etatLED);
+                    }
+                    break;
+
+                case (int)Fonctions.Tel_IR:
+
+                    int ir_gauche = msgPayload[0];
+                    int ir_centre = msgPayload[1];
+                    int ir_droit = msgPayload[2];
+                     
+                    IRGauche.Text =  "IR Gauche : " + ir_gauche + " cm";
+                    IRCentre.Text = "IR Centre : " + ir_centre + " cm";
+                    IRDroit.Text = "IR Droit : " + ir_droit + " cm";
+
+                    break;
+
+                case (int)Fonctions.Vitesse:
+                    int m_gauche = msgPayload[0];
+                    int m_droit = msgPayload[1];
+
+                    M_gauche.Text = "Vitesse gauche : " + m_gauche + " %";
+                    M_droit.Text = "Vitesse droite : " + m_droit + " %";
+                    break;
             }
         }
     }

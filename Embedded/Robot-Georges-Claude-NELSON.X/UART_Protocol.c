@@ -1,0 +1,167 @@
+#include <xc.h>
+#include "UART_Protocol.h"
+#include "IO.h"
+#include "UART.h"
+#include "CB_RX1.h"
+#include "CB_TX1.h"
+
+int msgDecodedPayloadLength = 0;
+unsigned char msgDecodedPayload[128];
+int msgDecodedPayloadIndex = 0;
+int msgDecodedFunction = 0;
+
+typedef enum {
+    Waiting,
+    FunctionMSB,
+    FunctionLSB,
+    PayloadLengthMSB,
+    PayloadLengthLSB,
+    Payload,
+    CheckSum
+} StateReception;
+
+StateReception rcvState = Waiting;
+
+unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
+    //Fonction prenant entrée la trame et sa longueur pour calculer le checksum
+    unsigned char Checksum;
+    Checksum = 0xFE;
+    Checksum ^= (msgFunction >> 8);
+    Checksum ^= (msgFunction >> 0);
+    Checksum ^= (msgPayloadLength >> 8);
+    Checksum ^= (msgPayloadLength >> 0);
+    int i = 0;
+    for (i = 0; i < msgPayloadLength; i++) {
+        Checksum ^= msgPayload[i];
+    }
+    return Checksum;
+}
+
+void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
+    //Fonction d?encodage et d?envoi d?un message
+    unsigned char msg[6 + msgPayloadLength];
+    int pos = 0;
+    msg[pos++] = 0xFE;
+    msg[pos++] = (msgFunction >> 8);
+    msg[pos++] = (msgFunction >> 0);
+    msg[pos++] = (msgPayloadLength >> 8);
+    msg[pos++] = (msgPayloadLength >> 0);
+    int i = 0;
+    for (i = 0; i < msgPayloadLength; i++) {
+        msg[pos++] = msgPayload[i];
+    }
+    msg[pos++] = UartCalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
+    SendMessage(msg, 6+msgPayloadLength);
+}
+
+void UartDecodeMessage(unsigned char c){
+    unsigned char calculatedChecksum, receivedChecksum;
+          switch (rcvState)
+            {
+                case Waiting:
+                    if( c == 0xFE)
+                    {
+                        rcvState = FunctionMSB;
+                        msgDecodedFunction = 0;
+                    }
+                break;
+
+                case FunctionMSB:
+                    msgDecodedFunction = c << 8;
+                    rcvState = FunctionLSB;
+                break;
+
+                case FunctionLSB:
+                    msgDecodedFunction += c << 0;
+                    rcvState = PayloadLengthMSB;
+                break;
+
+                case PayloadLengthMSB:
+                    msgDecodedPayloadLength = c << 8;
+                    rcvState = PayloadLengthLSB;
+                    break;
+
+                case PayloadLengthLSB:
+                    msgDecodedPayloadLength += c << 0;
+                    if(msgDecodedPayloadLength == 0)
+                        rcvState = CheckSum;
+                    else if(msgDecodedPayloadLength>=1024)
+                        rcvState = Waiting;
+                    else
+                    {
+                        rcvState = Payload;
+                        msgDecodedPayloadIndex = 0;
+                    }
+                    break;
+
+                case Payload:
+                    msgDecodedPayload[msgDecodedPayloadIndex++] = c;
+                    if(msgDecodedPayloadIndex>=msgDecodedPayloadLength)
+                        rcvState = CheckSum;
+                break;
+
+                case CheckSum:
+                    calculatedChecksum = UartCalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
+                    receivedChecksum = c;
+                    if (calculatedChecksum == receivedChecksum)
+                    {
+                        //Success, on a un message valide
+                        UartProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
+                    }
+                    else
+                    {
+                        
+                    }
+                    rcvState = Waiting;
+
+                    break;
+
+                default:
+                    rcvState = Waiting;
+                break;
+            }
+        }
+
+typedef enum {
+    Texte = 0x0080,
+    LED = 0x0020,
+    Tel_IR = 0x0030,
+    Vitesse = 0x0040
+}Fonctions;
+
+void UartProcessDecodedMessage(unsigned char function, unsigned char payloadLength, unsigned char* payload) {
+    //Fonction appelée après le décodage pour exécuter l?action
+    //correspondant au message reçu
+    
+    int numLed, etatLed = 0;
+    
+    switch(function)
+    {
+        case Texte:
+            break;
+            
+        case LED:
+            numLed = payload[0];
+            etatLed = payload[1];
+            
+            if(numLed == 0)
+            {
+               LED_ORANGE = etatLed;
+            }
+            else if(numLed == 1)
+            {
+                LED_BLEUE = etatLed;
+            }
+            else if(numLed == 1)
+            {
+                LED_BLANCHE = etatLed;
+            }
+    }
+}
+
+
+
+//*************************************************************************/
+//Fonctions correspondant aux messages
+//*************************************************************************/
+

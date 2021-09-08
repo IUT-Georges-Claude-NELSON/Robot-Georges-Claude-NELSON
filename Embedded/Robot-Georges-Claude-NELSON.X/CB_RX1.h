@@ -1,5 +1,5 @@
-#ifndef CB_TX1_H
-#define	CB_TX1_H
+#ifndef CB_RX1_H
+#define	CB_RX1_H
 
 void CB_RX1_Add(unsigned char value);
 unsigned char CB_RX1_Get(void);

@@ -31,24 +31,24 @@
         <GroupBox x:Name="Réception" Header="Réception" Margin="0" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="1" Grid.Column="3">
             <TextBox x:Name="textBoxRéception" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True" Background="{x:Null}"/>
         </GroupBox>
-        <GroupBox x:Name="Leds" Header="Leds" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="1" Margin="0,0,280,0">
-            <StackPanel>
-                <CheckBox x:Name="Led1" Content="Led1" Margin="2,2,0,2" />
-                <CheckBox x:Name="Led2" Content="Led2" Margin="2,2,0,2" />
-                <CheckBox x:Name="Led3" Content="Led3" Margin="2,2,0,2" />
+        <GroupBox x:Name="Leds" Header="Leds" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="1" Margin="0,0,251,0">
+            <StackPanel Margin="0,0,-29,0">
+                <CheckBox x:Name="Led1" Content="Led Orange" Margin="2,2,0,2" />
+                <CheckBox x:Name="Led2" Content="Led Bleue" Margin="2,2,0,2" />
+                <CheckBox x:Name="Led3" Content="Led Blanche" Margin="2,2,0,2" />
             </StackPanel>
         </GroupBox>
-        <GroupBox x:Name="Telemetres" Header="Télémètres IR" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="1" Margin="108,0,119,0">
-            <StackPanel Margin="0,0,-12,0">
-                <TextBlock TextWrapping="Wrap" Text="IR Gauche : " Margin="0,0,41,0"/>
-                <TextBlock TextWrapping="Wrap" Text="IR Centre : " Margin="0,0,41,0"/>
-                <TextBlock TextWrapping="Wrap" Text="IR Droit : " Margin="0,0,41,0" />
+        <GroupBox x:Name="Telemetres" Header="Télémètres IR" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="1" Margin="141,0,86,0">
+            <StackPanel Margin="0,0,-45,0">
+                <TextBlock x:Name="IRGauche"   Text="IR Gauche : " Margin="0,0,41,0"/>
+                <TextBlock x:Name="IRCentre" Text="IR Centre : " Margin="0,0,41,0"/>
+                <TextBlock x:Name="IRDroit" Text="IR Droit : " Margin="0,0,41,0" />
             </StackPanel>
         </GroupBox>
-        <GroupBox x:Name="Moteurs" Header="Moteurs" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="1" Margin="302,0" Grid.ColumnSpan="3">
+        <GroupBox x:Name="Moteurs" Header="Moteurs" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="1" Margin="302,0,275,0" Grid.ColumnSpan="3">
             <StackPanel Margin="0,0,-39,0">
-                <TextBlock TextWrapping="Wrap" Text="Vitesse Gauche : " Margin="0,0,41,0"/>
-                <TextBlock TextWrapping="Wrap" Text="Vitesse Droite : " Margin="0,0,41,0"/>
+                <TextBlock x:Name="M_gauche" TextWrapping="Wrap" Text="Vitesse Gauche : " Margin="0,0,41,0"/>
+                <TextBlock x:Name="M_droit" TextWrapping="Wrap" Text="Vitesse Droite : " Margin="0,0,41,0"/>
             </StackPanel>
         </GroupBox>
         <Button x:Name="buttonEnvoyer" Content="Envoyer" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Stretch" Width="100" Click="buttonEnvoyer_Click"/>
