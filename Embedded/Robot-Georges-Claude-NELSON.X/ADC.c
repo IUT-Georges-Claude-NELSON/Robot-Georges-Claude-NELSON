@@ -3,7 +3,7 @@
 #include "main.h"
 
 unsigned char ADCResultIndex = 0;
-static unsigned int ADCResult[4];
+static unsigned int ADCResult[5];
 unsigned char ADCConversionFinishedFlag;
 
 /****************************************************************************************************/
@@ -17,7 +17,7 @@ void InitADC1(void) {
     /************************************************************/
     //AD1CON1
     /************************************************************/
-    AD1CON1bits.ADON = 1; // ADC module OFF ? pendant la config
+    AD1CON1bits.ADON = 0; // ADC module OFF ? pendant la config
     AD1CON1bits.AD12B = 1; // 0 : 10bits ? 1 : 12bits
     AD1CON1bits.FORM = 0b00; // 00 = Integer (DOUT = 0000 dddd dddd dddd)
     AD1CON1bits.ASAM = 0; // 0 = Sampling begins when SAMP bit is set
