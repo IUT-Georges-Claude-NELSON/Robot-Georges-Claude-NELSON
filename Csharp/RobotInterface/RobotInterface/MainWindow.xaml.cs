@@ -109,6 +109,44 @@ namespace RobotInterface
             textBoxEmission.Text = "";
         }
 
+        void Led_Orange_checked(object sender, RoutedEventArgs e)
+        {
+            byte[] chaine = { 0, Convert.ToByte(Led1.IsChecked) };
+            UartEncodeAndSendMessage(0x0020, 2, chaine);
+        }
+
+
+
+        void Led_Orange_unchecked(object sender, RoutedEventArgs e)
+        {
+            byte[] chaine = { 0, Convert.ToByte(Led1.IsChecked) };
+            UartEncodeAndSendMessage(0x0020, 2, chaine);
+        }
+
+        void Led_Bleue_checked(object sender, RoutedEventArgs e)
+        {
+            byte[] chaine = { 1, Convert.ToByte(Led2.IsChecked) };
+            UartEncodeAndSendMessage(0x0020, 2, chaine);
+        }
+
+        void Led_Bleue_unchecked(object sender, RoutedEventArgs e)
+        {
+            byte[] chaine = { 1, Convert.ToByte(Led2.IsChecked) };
+            UartEncodeAndSendMessage(0x0020, 2, chaine);
+        }
+
+        void Led_Blanche_checked(object sender, RoutedEventArgs e)
+        {
+            byte[] chaine = { 2, Convert.ToByte(Led3.IsChecked) };
+            UartEncodeAndSendMessage(0x0020, 2, chaine);
+        }
+
+        void Led_Blanche_unchecked(object sender, RoutedEventArgs e)
+        {
+            byte[] chaine = { 2, Convert.ToByte(Led3.IsChecked) };
+            UartEncodeAndSendMessage(0x0020, 2, chaine);
+        }
+
         bool toggle = false;
 
         private void buttonEnvoyer_Click(object sender, RoutedEventArgs e)
@@ -141,10 +179,14 @@ namespace RobotInterface
             //}
             //serialPort1.Write(byteList, 0, 20);
             //byte[] chaine = Encoding.ASCII.GetBytes("Bonjour");
-            byte[] chaine = new byte[3];
-            chaine[0] = Convert.ToByte(52);
-            chaine[1] = Convert.ToByte(14);
-            UartEncodeAndSendMessage(0x0040, chaine.Length, chaine);
+            byte[] chaine = new byte[1];
+            chaine[0] = Convert.ToByte(0);
+            UartEncodeAndSendMessage(0x0052, 1, chaine);
+
+            byte[] chaine2 = new byte[1];
+            chaine2[0] =Convert.ToByte(StateRobot.STATE_AVANCE);
+         
+            UartEncodeAndSendMessage(0x0051, chaine2.Length, chaine2);
         }
 
 
@@ -171,7 +213,7 @@ namespace RobotInterface
         }
 
         void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, byte[ ] msgPayload)
-        {
+       {
             byte checksum = CalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
             byte[] msg = new byte[6 + msgPayloadLength];
             int pos = 0;
@@ -288,7 +330,9 @@ namespace RobotInterface
             LED = 0x0020,
             Tel_IR = 0x0030,
             Vitesse = 0x0040,
-            Etape = 0x0050
+            Etape = 0x0050,
+            Set_Robot_State = 0x0051,
+            Set_Robot_Manual_Control = 0x0052
         }
 
         public enum StateRobot
@@ -400,6 +444,10 @@ namespace RobotInterface
 
                     Time.Text = tps_courant.ToString() + "ms";
                     State.Text = "State Robot : " + (StateRobot) etape;
+                    break;
+
+                case (int)Fonctions.Set_Robot_State:
+                    
                     break;
             }
         }

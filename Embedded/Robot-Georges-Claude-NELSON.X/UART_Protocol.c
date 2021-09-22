@@ -57,6 +57,7 @@ void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned ch
 }
 
 void UartDecodeMessage(unsigned char c) {
+    
     unsigned char calculatedChecksum, receivedChecksum;
     switch (rcvState) {
         case Waiting:
@@ -118,14 +119,6 @@ void UartDecodeMessage(unsigned char c) {
     }
 }
 
-typedef enum {
-    Texte = 0x0080,
-    LED = 0x0020,
-    Tel_IR = 0x0030,
-    Vitesse = 0x0040,
-    Etape = 0x0050
-} Fonctions;
-
 void UartProcessDecodedMessage(unsigned char function, unsigned char payloadLength, unsigned char* payload) {
     //Fonction appelée après le décodage pour exécuter l?action
     //correspondant au message reçu
@@ -133,7 +126,9 @@ void UartProcessDecodedMessage(unsigned char function, unsigned char payloadLeng
     int numLed, etatLed = 0;
 
     switch (function) {
-        case Texte:
+        
+        case TEXTE:
+           UartEncodeAndSendMessage(TEXTE, payloadLength, payload);
             break;
 
         case LED:
@@ -144,12 +139,27 @@ void UartProcessDecodedMessage(unsigned char function, unsigned char payloadLeng
                 LED_ORANGE = etatLed;
             } else if (numLed == 1) {
                 LED_BLEUE = etatLed;
-            } else if (numLed == 1) {
+            } else if (numLed == 2) {
                 LED_BLANCHE = etatLed;
             }
+            break;
+            
+        case SET_ROBOT_STATE:
+            SetRobotState(payload[0]);
+            break;
+            
+        case SET_ROBOT_MANUAL_CONTROL:
+            SetRobotAutoControlState(payload[0]);
+            break;
+        default:
+            break;   
+        
     }
 }
-
+//
+//SetRobotState(unsigned char c){
+//    
+//}
 
 
 //*************************************************************************/

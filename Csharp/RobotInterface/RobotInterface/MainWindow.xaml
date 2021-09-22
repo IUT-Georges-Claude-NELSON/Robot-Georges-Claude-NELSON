@@ -33,12 +33,12 @@
         </GroupBox>
         <GroupBox x:Name="Leds" Header="Leds" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="1" Margin="0,0,251,0">
             <StackPanel Margin="0,0,-29,0">
-                <CheckBox x:Name="Led1" Content="Led Orange" Margin="2,2,0,2" />
-                <CheckBox x:Name="Led2" Content="Led Bleue" Margin="2,2,0,2" />
-                <CheckBox x:Name="Led3" Content="Led Blanche" Margin="2,2,0,2" />
+                <CheckBox x:Name="Led1" Content="Led Orange" Margin="2,2,0,2" Checked="Led_Orange_checked" Unchecked="Led_Orange_unchecked" />
+                <CheckBox x:Name="Led2" Content="Led Bleue" Margin="2,2,0,2" Checked="Led_Bleue_checked" Unchecked="Led_Bleue_unchecked" />
+                <CheckBox x:Name="Led3" Content="Led Blanche" Margin="2,2,0,2" Checked="Led_Blanche_checked" Unchecked="Led_Blanche_unchecked" />
             </StackPanel>
         </GroupBox>
-        <GroupBox x:Name="Telemetres" Header="Télémètres IR" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="1" Margin="115,0,112,10" Grid.RowSpan="2">
+        <GroupBox x:Name="Telemetres" Header="Télémètres IR" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="1" Margin="105,0,122,10" Grid.RowSpan="2">
             <StackPanel Margin="0,0,-45,0">
                 <TextBlock x:Name="IRExGauche" Text="IR Ex Gauche : " Margin="0,0,41,0" />
                 <TextBlock x:Name="IRGauche" Text="IR Gauche : " Margin="0,0,41,0" />
@@ -48,14 +48,14 @@
             </StackPanel>
         </GroupBox>
 
-        <GroupBox x:Name="Moteurs" Header="Moteurs" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="1" Margin="251,0,326,0" Grid.ColumnSpan="3">
+        <GroupBox x:Name="Moteurs" Header="Moteurs" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="1" Margin="234,0,343,0" Grid.ColumnSpan="3">
             <StackPanel Margin="0,0,-39,0">
                 <TextBlock x:Name="M_gauche" TextWrapping="Wrap" Text="Vitesse Gauche : " Margin="0,0,41,0"/>
                 <TextBlock x:Name="M_droit" TextWrapping="Wrap" Text="Vitesse Droite : " Margin="0,0,41,0"/>
             </StackPanel>
         </GroupBox>
 
-        <GroupBox x:Name="Etape" Header="Etape" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="3" Margin="47,0,0,0">
+        <GroupBox x:Name="Etape" Header="Etape" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="3" Margin="13,0,0,0">
             <StackPanel Margin="0,0,-45,0">
                 <TextBlock x:Name="State" Text="State Robot : " Margin="0,0,41,0" />
                 <TextBlock x:Name="Time" Text="Temps : " Margin="0,0,41,0" />

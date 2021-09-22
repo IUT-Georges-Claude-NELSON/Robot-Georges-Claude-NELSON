@@ -8,6 +8,13 @@
 #ifndef UART_PROTOCOL_H
 #define	UART_PROTOCOL_H
 
+#define LED 0x0020
+#define VITESSE 0x0040
+#define ETAPE 0x0050
+#define SET_ROBOT_STATE 0x0051
+#define SET_ROBOT_MANUAL_CONTROL 0x0052
+#define TEXTE 0x0080
+
 #ifdef	__cplusplus
 extern "C" {
 #endif
@@ -22,6 +29,10 @@ void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned ch
 void UartDecodeMessage(unsigned char c);
 
 void UartProcessDecodedMessage(unsigned char function, unsigned char payloadLength, unsigned char* payload);
+
+void SetRobotState(unsigned char);
+
+void SetRobotAutoControlState(unsigned char);
 
 
 #ifdef	__cplusplus
