@@ -136,7 +136,7 @@ int testBlocage = 0;
 void SetRobotAutoControlState(unsigned char c) {
     isModeAuto = c;
     if (isModeAuto == 1) {
-        stateRobot = STATE_ATTENTE;
+        stateRobot = STATE_AVANCE;
     } else {
         stateRobot = STATE_ARRET;
     }

@@ -15,6 +15,9 @@ using System.Windows.Shapes;
 using ExtendedSerialPort;
 using System.IO.Ports;
 using System.Windows.Threading;
+using MouseKeyboardActivityMonitor.WinApi;
+using MouseKeyboardActivityMonitor;
+using System.Windows.Forms;
 
 
 
@@ -34,6 +37,7 @@ namespace RobotInterface
 
         Robot robot = new Robot();
 
+        private readonly KeyboardHookListener m_KeyboardHookManager;
 
         public MainWindow()
         {
@@ -48,7 +52,64 @@ namespace RobotInterface
             timerAffichage.Tick += TimerAffichage_Tick;
             timerAffichage.Start();
 
+            m_KeyboardHookManager = new KeyboardHookListener(new GlobalHooker());
+            m_KeyboardHookManager.Enabled = true;
+            m_KeyboardHookManager.KeyDown += HookManager_KeyDown;
+           // m_KeyboardHookManager.KeyUp += HookManager_KeyUp;
+
         }
+
+        bool autoControlActivated = true;
+
+        private void buttonMode_Click(object sender, RoutedEventArgs e)
+        {
+            autoControlActivated = !autoControlActivated;
+
+            if(autoControlActivated == true)
+            {
+                buttonMode.Background = Brushes.Crimson;
+                buttonMode.Content = "Automatique"; //auto
+                UartEncodeAndSendMessage(0x0052, 1, new byte[] {1});
+            }
+            else
+            {
+                buttonMode.Background = Brushes.Bisque;
+                buttonMode.Content = "Manuel";//manu
+                UartEncodeAndSendMessage(0x0052, 1, new byte[] {0});
+            }
+
+            
+        }
+
+        private void HookManager_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+            {
+
+            if (autoControlActivated == false)
+            {
+                switch (e.KeyCode)
+                    {
+                    case Keys.Left:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[]{(byte)StateRobot.STATE_TOURNE_SUR_PLACE_GAUCHE});
+                        break;
+
+                    case Keys.Right:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[] {(byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE});
+                        break;
+
+                    case Keys.Up:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[]{(byte)StateRobot.STATE_AVANCE});
+                        break;
+
+                    case Keys.Down:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[]{(byte)StateRobot.STATE_ARRET});
+                        break;
+
+                    case Keys.PageDown:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[]{(byte)StateRobot.STATE_RECULE});
+                        break;
+                }
+                }
+            }
 
         private void TimerAffichage_Tick(object sender, EventArgs e)
         {
@@ -158,7 +219,7 @@ namespace RobotInterface
             else
             { 
                 buttonEnvoyer.Background = Brushes.RoyalBlue; 
-            } //Lorsqu'on clique, le bouton devient bleu. Si l'on réitère, le bouton reste toujours bleu.
+            } //Lorsqu'on clique, le bouton devient bleu.
             SendMessage();
 
             toggle = !toggle;
@@ -180,17 +241,17 @@ namespace RobotInterface
             //serialPort1.Write(byteList, 0, 20);
             //byte[] chaine = Encoding.ASCII.GetBytes("Bonjour");
             byte[] chaine = new byte[1];
-            chaine[0] = Convert.ToByte(0);
+            chaine[0] = Convert.ToByte(1);
             UartEncodeAndSendMessage(0x0052, 1, chaine);
 
-            byte[] chaine2 = new byte[1];
-            chaine2[0] =Convert.ToByte(StateRobot.STATE_AVANCE);
+            //byte[] chaine2 = new byte[1];
+            //chaine2[0] =Convert.ToByte(StateRobot.STATE_AVANCE);
          
-            UartEncodeAndSendMessage(0x0051, chaine2.Length, chaine2);
+            //UartEncodeAndSendMessage(0x0051, chaine2.Length, chaine2);
         }
 
 
-        private void textBoxEmission_KeyUp(object sender, KeyEventArgs e)
+        private void textBoxEmission_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if(e.Key == Key.Enter)
             {
