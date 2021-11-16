@@ -13,7 +13,18 @@ float distanceTelemetreExDroit;
 float vitesseGaucheConsigne;
 float vitesseGaucheCommandeCourante;
 float vitesseDroiteConsigne;
-float vitesseDroiteCommandeCourante;}
+float vitesseDroiteCommandeCourante;
+double vitesseDroitFromOdometry;
+double vitesseGaucheFromOdometry;
+double vitesseLineaireFromOdometry;
+double vitesseAngulaireFromOdometry;
+double xPosFromOdometry;
+double yPosFromOdometry;
+double angleRadianFromOdometry;
+double xPosFromOdometry_1;
+double yPosFromOdometry_1;
+double angleRadianFromOdometry_1;
+}
 ;}
 ;} ROBOT_STATE_BITS;
 

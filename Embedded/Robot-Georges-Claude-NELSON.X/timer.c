@@ -5,6 +5,8 @@
 #include "ADC.h"
 #include "main.h"
 #include "robot.h"
+#include "QEI.h"
+#include "utilities.h"
 #include "UART_Protocol.h"
 
 unsigned long timestamp;
@@ -89,11 +91,15 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
     PWMUpdateSpeed(); //Rampe dans timer rapide
     ADC1StartConversionSequence(); //Lance un échantillonage puis une conversion en mettant le bit SAMP à 1
+    if(subSamplingCounterT1++ % 25 == 0){
+        SendPositionData();
+    }
 //    if (subSamplingCounterT1++ % 10 == 0) 
 //    {
 //        unsigned char IR[] = {robotState.distanceTelemetreDroit, robotState.distanceTelemetreCentre, robotState.distanceTelemetreGauche};
 //        UartEncodeAndSendMessage(0x0030, 3, IR);
 //    }
+    QEIUpdateData();
 }
 
 void InitTimer4(void) {

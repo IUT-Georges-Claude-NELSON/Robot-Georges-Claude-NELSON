@@ -22,6 +22,7 @@
 #include "CB_RX1.h"
 #include "UART_Protocol.h"
 
+
 int isModeAuto = 1;
 
 int main(void) {
@@ -40,6 +41,8 @@ int main(void) {
     InitADC1();
     InitTimer4();
     InitUART();
+    InitQEI1();
+    InitQEI2();
 
 
     /****************************************************************************************************/

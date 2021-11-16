@@ -14,6 +14,8 @@ void InitIO()
     ANSELG = 0;
 
     //********** Configuration des sorties : _TRISxx = 0 ********************************
+    //********** Configuration des entrées : _TRISxx = 1 ********************************
+    
     // LED
     _TRISC10 = 0;  // LED Orange
     _TRISG6 = 0; //LED Blanche
@@ -31,7 +33,13 @@ void InitIO()
     _U1RXR = 24; // Remape la RP 24 sur l'entrée Rx1
     _RP36R = 0b000001; //Remappe la sortie Tx1 vers RP
     
-    //********** Configuration des entrées : _TRISxx = 1 ********************************   
+    //********** QEI **********
+    
+    _QEA2R = 97; // assign QEI A to pin RP97
+    _QEB2R = 96; // assign QEI B to pin RP96
+    
+    _QEA1R = 70; // assign QEI A to pin RP70
+    _QEB1R = 69; // assign QEI B to pin RP69
     
 }
 

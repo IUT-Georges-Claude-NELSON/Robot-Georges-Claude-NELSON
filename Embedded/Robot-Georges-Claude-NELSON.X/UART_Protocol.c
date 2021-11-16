@@ -4,6 +4,7 @@
 #include "UART.h"
 #include "CB_RX1.h"
 #include "CB_TX1.h"
+#include "QEI.h"
 
 int msgDecodedPayloadLength = 0;
 unsigned char msgDecodedPayload[128];
@@ -52,12 +53,12 @@ void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned ch
     }
     msg[pos++] = UartCalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
     SendMessage(msg, 6 + msgPayloadLength);
-    
-    
+
+
 }
 
 void UartDecodeMessage(unsigned char c) {
-    
+
     unsigned char calculatedChecksum, receivedChecksum;
     switch (rcvState) {
         case Waiting:
@@ -126,9 +127,9 @@ void UartProcessDecodedMessage(unsigned char function, unsigned char payloadLeng
     int numLed, etatLed = 0;
 
     switch (function) {
-        
+
         case TEXTE:
-           UartEncodeAndSendMessage(TEXTE, payloadLength, payload);
+            UartEncodeAndSendMessage(TEXTE, payloadLength, payload);
             break;
 
         case LED:
@@ -143,17 +144,18 @@ void UartProcessDecodedMessage(unsigned char function, unsigned char payloadLeng
                 LED_BLANCHE = etatLed;
             }
             break;
-            
+
         case SET_ROBOT_STATE:
             SetRobotState(payload[0]);
             break;
-            
+
         case SET_ROBOT_MANUAL_CONTROL:
             SetRobotAutoControlState(payload[0]);
             break;
+            
         default:
-            break;   
-        
+            break;
+
     }
 }
 //

@@ -74,7 +74,7 @@ namespace RobotInterface
             else
             {
                 buttonMode.Background = Brushes.Bisque;
-                buttonMode.Content = "Manuel";//manu
+                buttonMode.Content = "Manuel"; //manu
                 UartEncodeAndSendMessage(0x0052, 1, new byte[] {0});
             }
 
@@ -393,7 +393,8 @@ namespace RobotInterface
             Vitesse = 0x0040,
             Etape = 0x0050,
             Set_Robot_State = 0x0051,
-            Set_Robot_Manual_Control = 0x0052
+            Set_Robot_Manual_Control = 0x0052,
+            Position_Data = 0x0061
         }
 
         public enum StateRobot
@@ -509,6 +510,11 @@ namespace RobotInterface
 
                 case (int)Fonctions.Set_Robot_State:
                     
+                    break;
+
+                case (int)Fonctions.Position_Data:
+                    byte[] tab = msgPayload.GetRange(offset, 4);
+                    robot.positionXOdo+= tab.GetFloat();
                     break;
             }
         }
