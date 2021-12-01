@@ -4,13 +4,13 @@ Tool Name:
   c:\program files\microchip\xc16\v1.60\bin\bin\..\bin/elf-ld.exe
 
 Command:
-  -TC:\\Users\\GEII Robot\\AppData\\Local\\Temp\\tmp00001598.00 \
-  -TC:\\Users\\GEII Robot\\AppData\\Local\\Temp\\tmp00001598.01 \
-  -TC:\\Users\\GEII Robot\\AppData\\Local\\Temp\\tmp00001598.02 \
-  -TC:\\Users\\GEII Robot\\AppData\\Local\\Temp\\tmp00001598.03 \
-  -TC:\\Users\\GEII Robot\\AppData\\Local\\Temp\\tmp00001598.04 \
-  -TC:\\Users\\GEII Robot\\AppData\\Local\\Temp\\tmp00001598.05 \
-  -TC:\\Users\\GEII Robot\\AppData\\Local\\Temp\\tmp00001598.06 \
+  -TC:\\Users\\GEII Robot\\AppData\\Local\\Temp\\tmp000005b8.00 \
+  -TC:\\Users\\GEII Robot\\AppData\\Local\\Temp\\tmp000005b8.01 \
+  -TC:\\Users\\GEII Robot\\AppData\\Local\\Temp\\tmp000005b8.02 \
+  -TC:\\Users\\GEII Robot\\AppData\\Local\\Temp\\tmp000005b8.03 \
+  -TC:\\Users\\GEII Robot\\AppData\\Local\\Temp\\tmp000005b8.04 \
+  -TC:\\Users\\GEII Robot\\AppData\\Local\\Temp\\tmp000005b8.05 \
+  -TC:\\Users\\GEII Robot\\AppData\\Local\\Temp\\tmp000005b8.06 \
   -p33EP512GM706 \
   --mdfp=C:/Users/GEII Robot/.mchp_packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.3.85/xc16 \
   -o \
@@ -661,7 +661,7 @@ __FOSCSEL
 
 __FGS             0x0557fa          0x2
  *(__FGS.sec*)
- __FGS.sec        0x0557fa          0x2 /CW/_FGS∞π@
+ __FGS.sec        0x0557fa          0x2 /CW/_FGS‡È?
                   0x0557fa                  __FGS.sec
 
 __FUID0
@@ -3066,7 +3066,7 @@ LOAD c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-c-elf.a
 END GROUP
 OUTPUT(dist/default/debug/Robot-Georges-Claude-NELSON.X.debug.elf elf32-pic30)
-LOAD /CW/_FGS∞π@
+LOAD /CW/_FGS‡È?
 LOAD default_isr
 LOAD data_init
 

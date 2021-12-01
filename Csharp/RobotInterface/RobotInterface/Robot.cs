@@ -7,6 +7,13 @@ public class Robot
 	public float distanceTelemetreDroit;
 	public float distanceTelemetreCentre;
 	public float distanceTelemetreGauche;
+	public float positionXOdo;
+	public float positionYOdo;
+	public float angleRadianOdo;
+	public float vitesseLineaireOdo;
+	public float vitesseAngulaireOdo;
+	public float timestamp;
+
 
 	public Robot()
 	{

@@ -18,9 +18,7 @@ using System.Windows.Threading;
 using MouseKeyboardActivityMonitor.WinApi;
 using MouseKeyboardActivityMonitor;
 using System.Windows.Forms;
-
-
-
+using Utilities;
 
 namespace RobotInterface
 {
@@ -513,8 +511,34 @@ namespace RobotInterface
                     break;
 
                 case (int)Fonctions.Position_Data:
-                    byte[] tab = msgPayload.GetRange(offset, 4);
-                    robot.positionXOdo+= tab.GetFloat();
+                    byte[] tab = msgPayload.GetRange(0, 4);
+                    robot.timestamp += tab.GetFloat();
+
+                    tab = msgPayload.GetRange(4, 4);
+                    robot.positionXOdo += tab.GetFloat();
+
+                    tab = msgPayload.GetRange(8, 4);
+                    robot.positionYOdo += tab.GetFloat();
+
+                    //robot.positionXOdo += BitConverter.ToSingle(msgPayload, 0);
+
+                    tab = msgPayload.GetRange(12, 4);
+                    robot.angleRadianOdo += tab.GetFloat();
+
+                    tab = msgPayload.GetRange(16, 4);
+                    robot.vitesseLineaireOdo += tab.GetFloat();
+
+                    tab = msgPayload.GetRange(20, 4);
+                    robot.vitesseAngulaireOdo += tab.GetFloat();
+
+                    //timestamp.Text = "Durée prog : " + robot.timestamp;
+
+                    Pos_X.Text = "Position x : " + robot.positionXOdo;
+                    Pos_Y.Text = "Position y : " + robot.positionYOdo;
+                    Angle_rad.Text = "Angle rad : " + robot.angleRadianOdo;
+                    Linear_speed.Text = "Vitesse linéaire : " + robot.vitesseLineaireOdo;
+                    Angular_speed.Text = "Vitesse angulaire : " + robot.vitesseAngulaireOdo;
+
                     break;
             }
         }

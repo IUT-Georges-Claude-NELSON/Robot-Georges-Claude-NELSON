@@ -63,6 +63,17 @@
             </StackPanel>
         </GroupBox>
 
+        <GroupBox x:Name="Odo" Header="Odométrie" BorderBrush="Black" Background="#FFD1D1D1" Grid.Row="5" Grid.Column="3" Margin="14,10,10,10" Grid.RowSpan="2">
+            <StackPanel Margin="0,0,50,0">
+                <TextBlock x:Name="timestamp" Text="Durée prog : " Margin="0,0,41,0" />
+                <TextBlock x:Name="Pos_X" Text="Position x : " Margin="0,0,41,0" />
+                <TextBlock x:Name="Pos_Y" Text="Position y : " Margin="0,0,41,0" />
+                <TextBlock x:Name="Angle_rad" Text="Angle rad : " Margin="0,0,41,0" />
+                <TextBlock x:Name="Linear_speed" Text="Vitesse linéaire : " Margin="0,0,41,0" />
+                <TextBlock x:Name="Angular_speed" Text="Vitesse angulaire : " Margin="0,0,41,0" />
+            </StackPanel>
+        </GroupBox>
+
         <Button x:Name="buttonEnvoyer" Content="Envoyer" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Stretch" Width="100" Click="buttonEnvoyer_Click"/>
         <Button x:Name="buttonClear" Content="Clear" Grid.Column="3" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="3" VerticalAlignment="Stretch" Width="100" Click="buttonClear_Click"/>
         <Button x:Name="buttonTest" Content="Test" Grid.Column="1" HorizontalAlignment="Right" Margin="220,0,0,0" Grid.Row="3" VerticalAlignment="Stretch" Click="buttonTest_Click" Width="100"/>
