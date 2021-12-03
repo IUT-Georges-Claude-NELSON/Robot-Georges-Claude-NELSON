@@ -14,6 +14,8 @@ float vitesseGaucheConsigne;
 float vitesseGaucheCommandeCourante;
 float vitesseDroiteConsigne;
 float vitesseDroiteCommandeCourante;
+double vitesseLineaireFromOdometry_1;
+double vitesseAngulaireFromOdometry_1;
 double vitesseDroitFromOdometry;
 double vitesseGaucheFromOdometry;
 double vitesseLineaireFromOdometry;

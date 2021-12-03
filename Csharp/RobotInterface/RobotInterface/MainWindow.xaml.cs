@@ -515,21 +515,21 @@ namespace RobotInterface
                     robot.timestamp += tab.GetFloat();
 
                     tab = msgPayload.GetRange(4, 4);
-                    robot.positionXOdo += tab.GetFloat();
+                    robot.positionXOdo = tab.GetFloat();
 
                     tab = msgPayload.GetRange(8, 4);
-                    robot.positionYOdo += tab.GetFloat();
+                    robot.positionYOdo = tab.GetFloat();
 
                     //robot.positionXOdo += BitConverter.ToSingle(msgPayload, 0);
 
                     tab = msgPayload.GetRange(12, 4);
-                    robot.angleRadianOdo += tab.GetFloat();
+                    robot.angleRadianOdo = tab.GetFloat();
 
                     tab = msgPayload.GetRange(16, 4);
-                    robot.vitesseLineaireOdo += tab.GetFloat();
+                    robot.vitesseLineaireOdo = tab.GetFloat();
 
                     tab = msgPayload.GetRange(20, 4);
-                    robot.vitesseAngulaireOdo += tab.GetFloat();
+                    robot.vitesseAngulaireOdo = tab.GetFloat();
 
                     //timestamp.Text = "Durée prog : " + robot.timestamp;
 
