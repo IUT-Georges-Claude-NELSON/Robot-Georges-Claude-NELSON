@@ -8,12 +8,13 @@ unsigned char ADCConversionFinishedFlag;
 
 /****************************************************************************************************/
 // Configuration ADC
-
 /****************************************************************************************************/
-void InitADC1(void) {
-    //cf. ADC Reference Manual page 47
 
+void InitADC1(void) {
+    
+    //cf. ADC Reference Manual page 47
     //Configuration en mode 12 bits mono canal ADC avec conversions successives sur 4 entrées
+    
     /************************************************************/
     //AD1CON1
     /************************************************************/
@@ -22,7 +23,7 @@ void InitADC1(void) {
     AD1CON1bits.FORM = 0b00; // 00 = Integer (DOUT = 0000 dddd dddd dddd)
     AD1CON1bits.ASAM = 0; // 0 = Sampling begins when SAMP bit is set
     AD1CON1bits.SSRC = 0b111; // 111 = Internal counter ends sampling and starts conversion (auto-convert)
-
+    
     /************************************************************/
     //AD1CON2
     /************************************************************/

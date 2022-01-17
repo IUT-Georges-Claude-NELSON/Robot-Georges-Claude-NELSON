@@ -75,3 +75,14 @@ void getBytesFromDouble(unsigned char *p, int index, double d)
     for (i = 0; i < 8; i++)
         p[index + i] = f_ptr[i];
 }
+
+
+float RadianToDegree(float value)
+{
+return value / PI * 180.0;
+}
+
+float DegreeToRadian(float value)
+{
+return value * PI / 180.0;
+}

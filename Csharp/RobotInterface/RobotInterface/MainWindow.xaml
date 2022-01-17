@@ -4,18 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RobotInterface"
+        xmlns:AsservDisplay="clr-namespace:WpfAsservissementDisplay;assembly=WpfAsservissementDisplay"
         mc:Ignorable="d"
-        Title="MainWindow" Height="467" Width="800">
-    <Grid>
+        Title="MainWindow" Height="800" Width="800" Background="LightSkyBlue">
+    <Grid Margin="0,0,0,2">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition/>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="24"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="90"/>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="34"/>
+            <RowDefinition Height="92"/>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="356"/>
 
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -24,6 +25,8 @@
             <ColumnDefinition Width="30"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="30"/>
+
+
 
         </Grid.ColumnDefinitions>
         <GroupBox x:Name="Emission" Header="Emission" Margin="0" Background="#FFD1D1D1" BorderBrush="Black" Grid.Row="1" Grid.Column="1">
@@ -74,9 +77,14 @@
             </StackPanel>
         </GroupBox>
 
-        <Button x:Name="buttonEnvoyer" Content="Envoyer" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Stretch" Width="100" Click="buttonEnvoyer_Click"/>
-        <Button x:Name="buttonClear" Content="Clear" Grid.Column="3" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="3" VerticalAlignment="Stretch" Width="100" Click="buttonClear_Click"/>
-        <Button x:Name="buttonTest" Content="Test" Grid.Column="1" HorizontalAlignment="Right" Margin="220,0,0,0" Grid.Row="3" VerticalAlignment="Stretch" Click="buttonTest_Click" Width="100"/>
-        <Button x:Name="buttonMode" Content="Automatique" Grid.Column="3" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="4" VerticalAlignment="Stretch" Click="buttonMode_Click" Width="100"/>
+        <Button x:Name="buttonEnvoyer" Content="Envoyer" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Stretch" Width="100" Click="buttonEnvoyer_Click" Background="GhostWhite"/>
+        <Button x:Name="buttonClear" Content="Clear" Grid.Column="3" HorizontalAlignment="Center" Margin="125,0,126,0" Grid.Row="3" VerticalAlignment="Stretch" Width="100" Click="buttonClear_Click" Background="GhostWhite"/>
+        <Button x:Name="buttonTest" Content="Test" Grid.Column="1" HorizontalAlignment="Right" Grid.Row="3" VerticalAlignment="Stretch" Click="buttonTest_Click" Width="100" Background="GhostWhite"/>
+        <Button x:Name="buttonMode" Content="Automatique" Grid.Column="3" HorizontalAlignment="Center" Margin="125,0,126,0" Grid.Row="4" VerticalAlignment="Stretch" Click="buttonMode_Click" Width="100" Background="GhostWhite"/>
+
+        <GroupBox x:Name="asserv" Header="Asservissement" BorderBrush="GhostWhite" Background="Silver" Grid.Row="7" Grid.Column="1" Margin="0,10" Grid.ColumnSpan="3">
+            <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplay" HorizontalAlignment="Left" Margin="0,10,-2,-1" Width="722" Grid.ColumnSpan="3" Grid.Row="7" Grid.Column="1" />
+        </GroupBox>
     </Grid>
+
 </Window>

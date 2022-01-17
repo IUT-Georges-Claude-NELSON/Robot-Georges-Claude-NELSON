@@ -4,7 +4,6 @@
  *
  * Created on 26 janvier 2021, 15:43
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <xc.h>
@@ -16,11 +15,12 @@
 #include "ADC.h"
 #include "Robot.h"
 #include "main.h"
-#include "Toolbox.h"
 #include "UART.h"
 #include "CB_TX1.h"
 #include "CB_RX1.h"
 #include "UART_Protocol.h"
+#include "Asservissement.h"
+#include "QEI.h"
 
 
 int isModeAuto = 1;
@@ -34,6 +34,7 @@ int main(void) {
     /****************************************************************************************************/
     // Configuration des entrées sorties
     /****************************************************************************************************/
+    
     InitIO();
     InitTimer23();
     InitTimer1();
@@ -43,7 +44,6 @@ int main(void) {
     InitUART();
     InitQEI1();
     InitQEI2();
-
 
     /****************************************************************************************************/
     //Allumage LED
@@ -72,8 +72,8 @@ int main(void) {
             volts = ((float) result [0]) * 3.3 / 4096 * 3.2;
             robotState.distanceTelemetreExDroit = 34 / volts - 5;
 
-            unsigned char payload[] = {robotState.distanceTelemetreExGauche, robotState.distanceTelemetreGauche, robotState.distanceTelemetreCentre, robotState.distanceTelemetreDroit, robotState.distanceTelemetreExDroit};
-            UartEncodeAndSendMessage(0x0030, 5, payload);
+            //unsigned char payload[] = {robotState.distanceTelemetreExGauche, robotState.distanceTelemetreGauche, robotState.distanceTelemetreCentre, robotState.distanceTelemetreDroit, robotState.distanceTelemetreExDroit};
+            //UartEncodeAndSendMessage(DONNEES_TELEMETRE, 5, payload);
 
             //            if (robotState.distanceTelemetreDroit < 30 || robotState.distanceTelemetreGauche < 30) {
             //                LED_ORANGE = 1;
@@ -103,8 +103,8 @@ int main(void) {
             //            unsigned char payload2[] = {2, LED_BLANCHE};
             //            UartEncodeAndSendMessage(0x0020, 2, payload2);
 
-            unsigned char payload3[] = {abs(robotState.vitesseGaucheConsigne), abs(robotState.vitesseDroiteConsigne)};
-            UartEncodeAndSendMessage(0x0040, 2, payload3);
+            //unsigned char payload3[] = {abs(robotState.vitesseGaucheConsigne), abs(robotState.vitesseDroiteConsigne)};
+            //UartEncodeAndSendMessage(VITESSE, 2, payload3);
         }
 
 
@@ -398,12 +398,12 @@ void SetNextRobotStateInAutomaticMode() {
             nextStateRobot = STATE_AVANCE;
 
         //Si l'on n'est pas dans la transition de l'étape en cours
-        unsigned char payload[] = {stateRobot, timestamp >> 24, timestamp >> 16, timestamp >> 8, timestamp >> 0};
+        //unsigned char payload[] = {stateRobot, timestamp >> 24, timestamp >> 16, timestamp >> 8, timestamp >> 0};
 
 
         if (nextStateRobot != stateRobot - 1) {
             stateRobot = nextStateRobot;
-            UartEncodeAndSendMessage(0x0050, 5, payload);
+            //UartEncodeAndSendMessage(0x0050, 5, payload);
         }
 
     }

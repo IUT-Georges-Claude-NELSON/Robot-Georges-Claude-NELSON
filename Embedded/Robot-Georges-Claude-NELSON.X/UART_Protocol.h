@@ -13,7 +13,11 @@
 #define ETAPE 0x0050
 #define SET_ROBOT_STATE 0x0051
 #define SET_ROBOT_MANUAL_CONTROL 0x0052
+#define POSITION_DATA 0x0061
 #define TEXTE 0x0080
+#define DONNEES_ASSERV 0x0028
+#define DONNEES_TELEMETRE 0x0030
+#define SET_PID 0x0013
 
 #ifdef	__cplusplus
 extern "C" {

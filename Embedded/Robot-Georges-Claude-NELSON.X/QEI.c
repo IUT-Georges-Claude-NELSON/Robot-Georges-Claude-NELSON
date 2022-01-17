@@ -5,6 +5,7 @@
 #include "timer.h"
 #include <math.h>
 #include <xc.h>
+#include "UART_Protocol.h"
 
 double QeiDroitPosition_T_1,QeiGauchePosition_T_1,QeiDroitPosition,QeiGauchePosition,delta_d,delta_g,delta_theta ,dx;
 
@@ -51,13 +52,12 @@ void QEIUpdateData() {
     //Calcul des vitesses
     //attention à remultiplier par la fréquence d'échantillonnage
     
-    //Mise à jour des vitesse à t-1
-    robotState.vitesseLineaireFromOdometry_1 = robotState.vitesseLineaireFromOdometry;
-    robotState.vitesseAngulaireFromOdometry_1 = robotState.vitesseAngulaireFromOdometry;
+//    //Mise à jour des vitesse à t-1
+//    robotState.vitesseLineaireFromOdometry_1 = robotState.vitesseLineaireFromOdometry;
+//    robotState.vitesseAngulaireFromOdometry_1 = robotState.vitesseAngulaireFromOdometry;
     
     robotState.vitesseDroitFromOdometry = delta_d * FREQ_ECH_QEI;
     robotState.vitesseGaucheFromOdometry = delta_g * FREQ_ECH_QEI;
-    
     robotState.vitesseLineaireFromOdometry = (robotState.vitesseDroitFromOdometry + robotState.vitesseGaucheFromOdometry) / 2;
     robotState.vitesseAngulaireFromOdometry = delta_theta * FREQ_ECH_QEI;
 

@@ -19,6 +19,7 @@ using MouseKeyboardActivityMonitor.WinApi;
 using MouseKeyboardActivityMonitor;
 using System.Windows.Forms;
 using Utilities;
+using WpfAsservissementDisplay;
 
 namespace RobotInterface
 {
@@ -41,7 +42,7 @@ namespace RobotInterface
         {
             InitializeComponent();
 
-            serialPort1 = new ReliableSerialPort("COM18", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ReliableSerialPort("COM14", 115200, Parity.None, 8, StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
             serialPort1.Open();
 
@@ -238,16 +239,90 @@ namespace RobotInterface
             //}
             //serialPort1.Write(byteList, 0, 20);
             //byte[] chaine = Encoding.ASCII.GetBytes("Bonjour");
-            byte[] chaine = new byte[1];
-            chaine[0] = Convert.ToByte(1);
-            UartEncodeAndSendMessage(0x0052, 1, chaine);
+
+            //byte[] chaine = new byte[1];
+            //chaine[0] = Convert.ToByte(1);
+            // UartEncodeAndSendMessage(0x0052, 1, chaine);
+
+            envoiPID();
 
             //byte[] chaine2 = new byte[1];
             //chaine2[0] =Convert.ToByte(StateRobot.STATE_AVANCE);
-         
+
             //UartEncodeAndSendMessage(0x0051, chaine2.Length, chaine2);
         }
+        
+        
+        void envoiPID()
+        {
+            double Kp = 3;
+            double Ki = 70;
+            double Kd = 0;
+            double KpMax = 1000;
+            double KiMax = 1000;
+            double KdMax = 1000;
+            double KpT = 3;
+            double KiT = 70;
+            double KdT = 0;
+            double KpMaxT = 1000;
+            double KiMaxT = 1000;
+            double KdMaxT = 1000;
 
+            int pos = 0;
+
+            byte[] chaine = new byte[48];
+            var v = BitConverter.GetBytes((float)Kp);
+            v.CopyTo(chaine, pos);
+            pos += 4;
+
+            v = BitConverter.GetBytes((float)Ki);
+            v.CopyTo(chaine, pos);
+            pos += 4;
+
+            v = BitConverter.GetBytes((float)Kd);
+            v.CopyTo(chaine, pos);
+            pos += 4;
+
+            v = BitConverter.GetBytes((float)KpMax);
+            v.CopyTo(chaine, pos);
+            pos += 4;
+
+            v = BitConverter.GetBytes((float)KiMax);
+            v.CopyTo(chaine, pos);
+            pos += 4;
+
+            v = BitConverter.GetBytes((float)KdMax);
+            v.CopyTo(chaine, pos);
+            pos += 4;
+
+
+
+            v = BitConverter.GetBytes((float)KpT);
+            v.CopyTo(chaine, pos);
+            pos += 4;
+
+            v = BitConverter.GetBytes((float)KiT);
+            v.CopyTo(chaine, pos);
+            pos += 4;
+
+            v = BitConverter.GetBytes((float)KdT);
+            v.CopyTo(chaine, pos);
+            pos += 4;
+
+            v = BitConverter.GetBytes((float)KpMaxT);
+            v.CopyTo(chaine, pos);
+            pos += 4;
+
+            v = BitConverter.GetBytes((float)KiMaxT);
+            v.CopyTo(chaine, pos);
+            pos += 4;
+
+            v = BitConverter.GetBytes((float)KdMaxT);
+            v.CopyTo(chaine, pos);
+            pos += 4;
+
+            UartEncodeAndSendMessage(0x0013, pos, chaine);
+        }
 
         private void textBoxEmission_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -256,6 +331,8 @@ namespace RobotInterface
                 SendMessage();
             }
         }
+
+
         byte CalculateChecksum(int msgFunction,int msgPayloadLength, byte [] msgPayload )
         {
             byte Checksum;
@@ -392,7 +469,8 @@ namespace RobotInterface
             Etape = 0x0050,
             Set_Robot_State = 0x0051,
             Set_Robot_Manual_Control = 0x0052,
-            Position_Data = 0x0061
+            Position_Data = 0x0061,
+            Data_asserv = 0x0028
         }
 
         public enum StateRobot
@@ -531,13 +609,148 @@ namespace RobotInterface
                     tab = msgPayload.GetRange(20, 4);
                     robot.vitesseAngulaireOdo = tab.GetFloat();
 
-                    //timestamp.Text = "Durée prog : " + robot.timestamp;
+                    timestamp.Text = "Durée prog : " + (robot.timestamp).ToString();
+                    Pos_X.Text = "Position x : " + (robot.positionXOdo).ToString();
+                    Pos_Y.Text = "Position y : " + (robot.positionYOdo).ToString();
+                    Angle_rad.Text = "Angle rad : " + (robot.angleRadianOdo * 180 / Math.PI).ToString();
+                    Linear_speed.Text = "Vitesse linéaire : " + (robot.vitesseLineaireOdo).ToString();
+                    Angular_speed.Text = "Vitesse angulaire : " + (robot.vitesseAngulaireOdo).ToString();
+                    break;
 
-                    Pos_X.Text = "Position x : " + robot.positionXOdo;
-                    Pos_Y.Text = "Position y : " + robot.positionYOdo;
-                    Angle_rad.Text = "Angle rad : " + robot.angleRadianOdo;
-                    Linear_speed.Text = "Vitesse linéaire : " + robot.vitesseLineaireOdo;
-                    Angular_speed.Text = "Vitesse angulaire : " + robot.vitesseAngulaireOdo;
+                case (int)Fonctions.Data_asserv:
+                    int pos = 0;
+
+                    double consigneX;
+                    double consigneTheta;
+                    double mesureX;
+                    double mesureTheta;
+                    double errorX;
+                    double errorTheta;
+                    double commandX;
+                    double commandTheta;
+                    //-------------------
+                    double corrPX;
+                    double corrPTheta;
+                    double corrIX;
+                    double corrITheta;
+                    double corrDX;
+                    double corrDTheta;
+                    //-------------------
+                    double KpX;
+                    double KpTheta;
+                    double KiX;
+                    double KiTheta;
+                    double KdX;
+                    double KdTheta;
+                    //-------------------
+                    double corrMaxPX;
+                    double corrMaxPTheta;
+                    double corrMaxIX;
+                    double corrMaxITheta;
+                    double corrMaxDX;
+                    double corrMaxDTheta;
+                    //-------------------
+                    double vitesseGauche;
+                    double vitesseDroite;
+
+
+
+                    consigneX = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+                    
+                    consigneTheta = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    mesureX = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+                    
+                    mesureTheta = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+                    
+                    errorX = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+                    
+                    errorTheta = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+                    
+                    commandX = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+                    
+                    commandTheta = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    
+                    corrPX = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    corrPTheta = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    corrIX = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    corrITheta = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    corrDX = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    corrDTheta = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+
+                    KpX = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    KpTheta = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    KiX = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    KiTheta = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    KdX = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    KdTheta = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+
+                    corrMaxPX = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    corrMaxPTheta = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    corrMaxIX = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    corrMaxITheta = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    corrMaxDX = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    corrMaxDTheta = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    vitesseGauche = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    vitesseDroite = BitConverter.ToSingle(msgPayload, pos);
+                    pos += 4;
+
+                    asservSpeedDisplay.UpdatePolarSpeedConsigneValues(consigneX, consigneTheta);
+                    asservSpeedDisplay.UpdatePolarSpeedCommandValues(commandX, commandTheta);
+                    asservSpeedDisplay.UpdatePolarSpeedErrorValues(errorX,errorTheta);
+                    asservSpeedDisplay.UpdatePolarSpeedCorrectionValues(corrPX, corrPTheta, corrIX, corrITheta, corrDX, corrDTheta);
+                    asservSpeedDisplay.UpdatePolarSpeedCorrectionGains(KpX, KpTheta, KiX, KiTheta, KdX, KdTheta);
+                    asservSpeedDisplay.UpdatePolarSpeedCorrectionLimits(corrMaxPX, corrMaxPTheta, corrMaxIX, corrMaxITheta, corrMaxDX, corrMaxDTheta);
+                    //asservSpeedDisplay.UpdatePolarOdometrySpeed(mesureX, mesureTheta);
+                    asservSpeedDisplay.UpdatePolarOdometrySpeed(robot.vitesseLineaireOdo, robot.vitesseAngulaireOdo);
+                    asservSpeedDisplay.UpdateIndependantOdometrySpeed(vitesseGauche, vitesseDroite);
 
                     break;
             }

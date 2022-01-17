@@ -5,11 +5,16 @@
 #include "CB_RX1.h"
 #include "CB_TX1.h"
 #include "QEI.h"
+#include "Asservissement.h"
+#include "robot.h"
+#include "utilities.h"
 
 int msgDecodedPayloadLength = 0;
 unsigned char msgDecodedPayload[128];
 int msgDecodedPayloadIndex = 0;
 int msgDecodedFunction = 0;
+
+double Kp, Ki, Kd, KpMax, KiMax, KdMax, KpT, KiT, KdT, KpMaxT, KiMaxT, KdMaxT;
 
 typedef enum {
     Waiting,
@@ -113,7 +118,7 @@ void UartDecodeMessage(unsigned char c) {
             rcvState = Waiting;
 
             break;
-
+            
         default:
             rcvState = Waiting;
             break;
@@ -152,6 +157,25 @@ void UartProcessDecodedMessage(unsigned char function, unsigned char payloadLeng
         case SET_ROBOT_MANUAL_CONTROL:
             SetRobotAutoControlState(payload[0]);
             break;
+            
+          
+        case SET_PID:
+            Kp = getFloat(payload, 0);
+            Ki = getFloat(payload, 4);
+            Kd = getFloat(payload, 8);
+            KpMax = getFloat(payload, 12);
+            KiMax = getFloat(payload, 16);
+            KdMax = getFloat(payload, 20);
+            
+            setupPidAsservissement(&robotState.PidX, Kp, Ki, Kd, KpMax, KiMax, KdMax);
+            
+            KpT = getFloat(payload, 24);
+            KiT = getFloat(payload, 28);
+            KdT = getFloat(payload, 32);
+            KpMaxT = getFloat(payload, 36);
+            KiMaxT = getFloat(payload, 40);
+            KdMaxT = getFloat(payload, 44);
+            setupPidAsservissement(&robotState.PidTheta, KpT, KiT, KdT, KpMaxT, KiMaxT, KdMaxT);
             
         default:
             break;
